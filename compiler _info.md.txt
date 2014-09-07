@@ -1,0 +1,32 @@
+
+Dev C++ is an IDE, it comes with MingW's port of GCC compiler. Great Compiler by the way and its ***free***.
+http://www.bloodshed.net/download.html
+You will notice they have a Pascal IDE too, with the Free pascal compiler.
+
+But yeah... Visual Studio another IDE that comes with Microsoft's compiler is a nice choice too for its very user friendly interface.(IMO the best IDE for windows os)
+Express edition: (free edition)
+http://www.microsoft.com/express/download/
+
+if all you want is a compiler:
+http://www.microsoft.com/downloads/Search.aspx?displaylang=en
+theres a link for the SDK it comes with the latest version of the compiler and all the header files.
+
+GNU C++ compiler GCC(g++)
+http://gcc.gnu.org/
+MingW GCC port for windows.
+http://www.mingw.org/
+
+Hope this helps.
+
+Suggested IDE and compiler:
+Zaita (2730)
+I find it odd nobody has mentioned Eclipse + CDT. After using MSVC++, Dev-C++ and Installing Code::Blocks for a trial I have found Eclipse to be the best IDE hands-down.
+
+You install the MingW (GCC) compiler, gdb debugger and run Eclipse+CDT on any platform you choose. It's cross-platform ability alone makes it a good choice. 
+
+Eclipse also has numerous plugins for various source control systems (CVS, SVN etc).
+
+If you want a simple, fast IDE then Dev-C++ is the way to go. But you'd prob end up moving up to Eclipse later on if you took that path.
+
+Conclusion:
+Since we all have worked with Eclipse before in 248 and 249. Probably in 352, we could use Eclipse + CDT. It is a also cross-platform work set.
