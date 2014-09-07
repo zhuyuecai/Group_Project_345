@@ -2,6 +2,7 @@ Group_Project_345
 =================
 
 This is the repo for the group project of Comp345.
+course website: http://users.encs.concordia.ca/~paquet/wiki/index.php?title=COMP345_-_fall_2014
 
 #Things to do:
 ##Please note down when you are available for a meet up
