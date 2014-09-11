@@ -7,7 +7,7 @@ course website: http://users.encs.concordia.ca/~paquet/wiki/index.php?title=COMP
 #Things to do:
 ##Please note down when you are available for a meet up
 ###Victor:Thursday morning before 12:00, or afternoon after 3:00
-###Lukas:every morning 
+###Lukas: every morning before 1:15pm
 ##Clone the repo
 ##Put your student ID, and ENCS login name here:
 ##propose topics that we need to discuss for the first meet up.
