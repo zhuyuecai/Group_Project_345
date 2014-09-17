@@ -1,18 +1,56 @@
 modules:
 ================================
-#map:
+#Map: 	
+	- A map Editor (adding some developer-made maps?)
+	- Critters move on path, Towers put on scenery (not on the path)
+	- Cells contain maximum one element at any time (critters and towers)
 
-#tower
+#Map Editor: 	
+	- Elements: path, scenery, exit and entry point
+	- Must validate the map before starting a game (or before saving it?)
+	- User can save the map
+	- User chooses the map’s size
+
+#Game:
+	- At start —> Must choose a map (user-made or developer-made?)
+	- Wave-based (start when player wants)
+	- Game Over if a specific amount ( =number of lives) of critters arrive at the exit point
+		
+#Tower:
+	- Different Towers: Specific Style, Range, Power, Price, Rate of Fire
+	- Can be upgraded (must add a Max upgrade level - 5 maybe?)
+	- Can be bought at any time (during and between waves)
+	- User can inspect the characteristics 
+	- Area damage? Special effect (stunning, lower speed, …) ?
+	- Can be sold back (== give money)
+	
 
 
-#critter
+#Critter:
+	- Arrive in succession at a finite amount
+	- Move cell by cell towards the exit point
+	- Each kind have a specific max HP (health points)
+	- Lose HP when hit
+	- If HP <= 0 —> Critter dies
+	- Strength (HP and/or speed) increases every wave
+	- User can inspect characteristics in play and of the wave to come 
+
+#GUI:
+	- A…window! (defining the size)
+	- « Start the wave » button
+	- TBD
+	
 
 
-#GUI
-
-
-#money system
+#Money System:
+	- There is an initial amount (TBD)
+	- Dead critters —> gives money
+	- Selling towers —> gives money (but less than when you bought it)
+	- Buying towers and upgrades —> less money (of couse!)
+	- End of wave —> More money??
 
 #main
 
-#TBD
+#TBD:
+	- Where to shoot when critters moving???
+	- Who are the towers gonna shoot? (first in range? middle? last?)
