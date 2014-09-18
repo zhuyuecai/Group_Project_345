@@ -6,34 +6,37 @@ Modules:
 	- Cells contain maximum one element at any time (critters and towers)
 
 #Map Editor: 	
-	- Elements: path, scenery, exit and entry point
+	- Elements: path, exit and entry point
+	- Elements must be placed one after the other (entry first, then one path tile at a time, until exit point)
 	- Must validate the map before starting a game (or before saving it?)
 	- User can save the map
-	- User chooses the map’s size
+	- User chooses the map’s size (max and min size)
 
 #Game:
 	- At start —> Must choose a map (user-made or developer-made?)
 	- Wave-based (start when player wants)
 	- Game Over if a specific amount ( =number of lives) of critters arrive at the exit point
+	- *Gain back life?* When? (After 5 waves?)
 		
 #Tower:
 	- Different Towers: Specific Style, Range, Power, Price, Rate of Fire
+		Style —> IDEA: Different towers = different forms?
+			       Upgrading towers = different colours? 
 	- Can be upgraded (must add a Max upgrade level - 5 maybe?)
 	- Can be bought at any time (during and between waves)
 	- User can inspect the characteristics 
 	- Area damage? Special effect (stunning, lower speed, …) ?
 	- Can be sold back (== give money)
 	
-
-
 #Critter:
 	- Arrive in succession at a finite amount
 	- Move cell by cell towards the exit point
 	- Each kind have a specific max HP (health points)
 	- Lose HP when hit
 	- If HP <= 0 —> Critter dies
-	- Strength (HP and/or speed) increases every wave
+	- Strength (HP and/or speed and/or number) increases every wave
 	- User can inspect characteristics in play and of the wave to come 
+		IDEA: Different critters: Moving letters?
 
 #GUI:
 	- A…window! (defining the size)
