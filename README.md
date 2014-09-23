@@ -6,7 +6,7 @@ course website: http://users.encs.concordia.ca/~paquet/wiki/index.php?title=COMP
 
 #Things to do:
 ##Please note down when you are available for a meet up
-###Victor:Thursday morning before 12:00, or afternoon after 3:00
+###Victor:every morning before 1:15 pm, and Thursday afternoon after 3:00
 ###Lukas: every morning before 1:15pm
 ###Cesar: every morning before 1:15pm
 ##Clone the repo
