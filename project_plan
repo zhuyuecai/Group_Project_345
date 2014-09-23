@@ -4,6 +4,7 @@ Modules:
 	- A map Editor (adding some developer-made maps?)
 	- Critters move on path, Towers put on scenery (not on the path)
 	- Cells contain maximum one element at any time (critters and towers)
+	- Map have to be serializable so that we can load them
 
 #Map Editor: 	
 	- Elements: path, exit and entry point
