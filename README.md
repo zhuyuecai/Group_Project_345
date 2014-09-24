@@ -6,9 +6,9 @@ course website: http://users.encs.concordia.ca/~paquet/wiki/index.php?title=COMP
 
 #Environment:
 ==================
-IDE: Visual Studio 
-Libraries: SFML 
-Platform: Windows
+IDE: Visual Studio\n 
+Libraries: SFML \n
+Platform: Windows \n
 
 #Project Structure and the story points assigned 
 ================================================
