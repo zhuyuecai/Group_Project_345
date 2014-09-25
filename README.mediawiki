@@ -3,7 +3,7 @@ This is the repo for the group project of Comp345.
 course website: http://users.encs.concordia.ca/~paquet/wiki/index.php?title=COMP345_-_fall_2014
 
 =Regular Meeting=
-(TBD)20:30 to 22:30 every Wed in H-831
+20:30 to 22:30 every Wed in H-831
 
 ==Environment:==
 #IDE: Visual Studio
