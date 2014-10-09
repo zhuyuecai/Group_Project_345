@@ -1,47 +1,46 @@
-/*Header file for the class turret, It defines the constructor and public interface for the class Turret, 
-requires an existed class account*/
-
-
+/*Header file for the class turret, It defines the constructor and public interface for the class Turret*/
 #ifndef TURRET_H
 #define TURRET_H
 namespace turret{
-public:
+	//constants
 	const int num_lv = 10;
+	//constant parameters should be ajusted later according to the main method algorithm
 	const float* powerList = new float[num_lv] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-	const float* rangeList = new float[num_lv] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};;
-	const float* discountList = new float[num_lv] {0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.7};;
+	const float* rangeList = new float[num_lv] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+	const float* discountList = new float[num_lv]{0.05f, 0.1f, 0.15f, 0.2f, 0.25f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f};
 	const float* priceList = new float[num_lv] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
 	class Turret{
-	public:
-		Turret(int lv);
-		float getPower();
-		float getRange();
-		float getPrice();
-		float getDiscount();
-		int getLv();
-	private :
+	private:
+		//variables
 		float power;
 		float range;
 		float discount;
 		float price;
 		int level;
-		void setPower(int lv);
-		void setPrice(int lv);
-		void setRange(int lv);
-		void setDiscount(int lv);
-		void setLevel(int lv);
+	public:
+		//constructor
+		Turret(int lv);
+		//getters
+		float getPower(){ return power; }
+		float getRange(){ return range; }
+		float getPrice(){ return price; }
+		float getDiscount(){ return discount; }
+		int getLv(){ return level; }
+		//mutaters 
+		void setPower(int lv){ power = powerList[lv - 1]; }
+		void setPrice(int lv){ price = priceList[lv - 1]; }
+		void setRange(int lv){ range = rangeList[lv - 1]; }
+		void setDiscount(int lv){ discount = discountList[lv - 1]; }
+		void setLv(int lv){ level = lv; }
+
 	};
-	public void sell_Turret(Turret t);
-	inline void Turret::setPower(int lv){power = powerList[lv - 1];}
-	inline void Turret::setRange(int lv){range = rangeList[lv - 1];}
-	inline void Turret::setPrice(int lv){price = priceList[lv - 1];}
-	inline void Turret::setDiscount(int lv){discount = discountList[lv - 1];}
-	inline void Turret::setLevel(int lv){level = lv ;}
-	inline float getPower(){return power;}
-	inline float getPrice(){ return price; }
-	inline float getRange(){ return range; }
-	inline float getDiscount(){ return discount; }
-	inline int getLevel(){ return level; }
+
+	//function of selling the turret, the value return is the money you gain after selling it
+	float sellTurret(Turret& t);
+	//upgrade() with increment the level of the input turret by 1 and hence evey parameters of it accordingly. 
+	//the return value is the money you pay for the upgrade.
+	float upgrade(Turret& t);
 }
 
 #endif
