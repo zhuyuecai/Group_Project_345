@@ -1,7 +1,8 @@
 #include "Turret.h"
-using namespace turret;
+//using namespace turret;
 //constructor of class Turret
-Turret::Turret(int lv){
+
+turret::Turret::Turret(int lv){
 	power = powerList[lv - 1];
 	price = priceList[lv - 1];
 	range = rangeList[lv - 1];
@@ -9,19 +10,19 @@ Turret::Turret(int lv){
 	level = lv;
 }
 //definition of sellTurret()
-float sellTurret(Turret& t){
+float turret::sellTurret(turret::Turret& t){
 	float re = t.getPrice() * t.getDiscount();
 	t.~Turret();
 	return re;
 }
 //definition of upgrade()
-float upgrade(Turret& t){
-	int currentLv = t.getLv();
-	t.setLv(currentLv + 1);
-	float re = priceList[currentLv] - priceList[currentLv - 1];
-	t.setPower(currentLv);
-	t.setRange(currentLv);
-	t.setPrice(currentLv);
-	t.setDiscount(currentLv);
+float turret::upgrade(turret::Turret& t){
+	int newLv = t.getLv()+1;
+	t.setLv(newLv);
+	float re = priceList[newLv] - priceList[newLv - 1];
+	t.setPower(newLv);
+	t.setRange(newLv);
+	t.setPrice(newLv);
+	t.setDiscount(newLv);
 	return re;
 }

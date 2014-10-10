@@ -5,10 +5,10 @@ namespace turret{
 	//constants
 	const int num_lv = 10;
 	//constant parameters should be ajusted later according to the main method algorithm
-	const float* powerList = new float[num_lv] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-	const float* rangeList = new float[num_lv] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-	const float* discountList = new float[num_lv]{0.05f, 0.1f, 0.15f, 0.2f, 0.25f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f};
-	const float* priceList = new float[num_lv] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+	const float powerList[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+	const float rangeList[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+	const float discountList[] = {0.05f, 0.1f, 0.15f, 0.2f, 0.25f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f};
+	const float priceList [] ={1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
 	class Turret{
 	private:
