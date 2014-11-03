@@ -6,6 +6,7 @@
 
 namespace TDC
 {
+	// Messages used by Critters
 	namespace CritterMsg
 	{
 		struct GetNextCell : Message < GetNextCell >

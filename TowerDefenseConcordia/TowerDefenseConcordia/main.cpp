@@ -5,9 +5,15 @@
 
 int main(void)
 {
+	// Game creation
 	TDC::Game game;
+
+	// Game initialisation
 	game.init();
+
+	// We set Game mode (main menu)
 	game.setLaunchMode();
-//	game.generate();
+
+	// We launch game loop
 	game.launch();
 }

@@ -20,10 +20,16 @@ namespace TDC
 	public:
 		Game();
 		virtual ~Game();
+
+		// Game
 		void setPlayMode(const std::string &mapFilePath);
+		// Choose game mode menu
 		void setChoosePlayMode(const std::string &mapFilePath);
+		// Edition Mode
 		void setEditionMode(const std::string &mapFilePath);
+		// Main menu mode
 		void setLaunchMode();	
+		// Initialization
 		virtual void init();
 	protected:
 		virtual void _updateEvents(const sf::Event &event);

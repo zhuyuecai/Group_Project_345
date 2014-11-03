@@ -7,6 +7,7 @@
 
 namespace TDC
 {
+	// Button interface
 	class IButton : public PubSub
 	{
 	public:

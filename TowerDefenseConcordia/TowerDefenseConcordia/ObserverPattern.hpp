@@ -13,6 +13,7 @@ namespace TDC
 	class Subscriber
 	{
 	public:
+		// Subscribe to message type and call lambda function when receive one
 		template <typename T>
 		void subcribeToMessage(std::function<void(IMessage *message)> function)
 		{
@@ -23,6 +24,7 @@ namespace TDC
 			_callbacks[T::getId()] = function;
 		}
 
+		// Unsubscribe to message type
 		template <typename T>
 		void unsubcribeToMessage()
 		{
@@ -33,6 +35,7 @@ namespace TDC
 			_callbacks[T::getId()] = nullptr;
 		}
 
+		// Handle struct so that publisher can keep a reference on Subscriber and verify if they still exists
 		struct Handle
 		{
 			Subscriber *ptr;
@@ -61,6 +64,7 @@ namespace TDC
 		Publisher();
 		virtual ~Publisher();
 
+		// Used to publish a message
 		template <class T, typename... Args>
 		void publish(Args ...args)
 		{
@@ -72,13 +76,17 @@ namespace TDC
 			}
 		}
 
+		// Add a subscriber
 		void addSubscriber(std::shared_ptr<Subscriber::Handle> handle);
+		// Remove a subscriber
 		void removeSubscriber(std::shared_ptr<Subscriber::Handle> handle);
+		// Remove invalid subscribers
 		void removeEmptySubscribers();
 	private:
 		std::vector<std::shared_ptr<Subscriber::Handle>> _subscribers;
 	};
 
+	// Class where the object is publisher and subscriber at the same time
 	class PubSub : public Publisher, public Subscriber
 	{};
 }

@@ -10,6 +10,7 @@ namespace TDC
 {
 	namespace Msg
 	{
+		// Message sent when window is resized
 		struct Resize : Message<Resize>
 		{
 			Resize(const sf::Vector2u &_size)
@@ -19,16 +20,7 @@ namespace TDC
 			sf::Vector2u size;
 		};
 
-		struct DrawMapArray : Message<DrawMapArray>
-		{
-			DrawMapArray(const std::vector<Cell> *_array)
-				: array(_array)
-			{}
-
-			const std::vector<Cell> *array;
-		};
-
-		//message
+		// Event message
 		struct Event : Message < Event >
 		{
 			sf::Event event;
@@ -37,6 +29,7 @@ namespace TDC
 			{}
 		};
 
+		// Playmode message used to change play modes / menus
 		struct PlayMode : Message < PlayMode >
 		{
 			enum Mode
