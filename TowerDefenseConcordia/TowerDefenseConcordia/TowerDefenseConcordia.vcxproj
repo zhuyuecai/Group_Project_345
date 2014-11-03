@@ -86,6 +86,8 @@
     <ClInclude Include="Map.hpp" />
     <ClInclude Include="MapMessages.hpp" />
     <ClInclude Include="Message.hpp" />
+    <ClInclude Include="Modes\MapCreationMenu.hpp" />
+    <ClInclude Include="TextInput.hpp" />
     <ClInclude Include="ObserverPattern.hpp" />
     <ClInclude Include="TextButton.hpp" />
     <ClInclude Include="WindowManager.hpp" />
@@ -99,6 +101,8 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="IButton.cpp" />
     <ClCompile Include="Modes\LaunchModeBehaviour.cpp" />
+    <ClCompile Include="Modes\MapCreationMenu.cpp" />
+    <ClCompile Include="TextInput.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="ObserverPattern.cpp" />
     <ClCompile Include="TextButton.cpp" />

@@ -40,7 +40,7 @@ namespace TDC
 			addSubscriber(_edit->getHandle());
 
 			_edit->setOnClickCallback([&](){
-				this->publish<Msg::PlayMode>(Msg::PlayMode::Mode::EditMap, "");
+				this->publish<Msg::PlayMode>(Msg::PlayMode::Mode::CreateMap, "");
 			});
 
 		}

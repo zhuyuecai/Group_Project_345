@@ -47,7 +47,8 @@ namespace TDC
 	}
 
 	void TextButton::_init()
-	{}
+	{
+	}
 
 	void TextButton::_resized()
 	{

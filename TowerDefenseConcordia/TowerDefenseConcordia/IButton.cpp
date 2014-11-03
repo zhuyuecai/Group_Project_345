@@ -39,6 +39,7 @@ namespace TDC
 			{
 				_onClick();
 			}
+			_event(m->event);
 		});
 		_init();
 	}

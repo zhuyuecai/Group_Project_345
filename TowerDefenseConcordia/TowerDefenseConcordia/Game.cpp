@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "Modes/MapCreationMenu.hpp"
 
 namespace TDC
 {
@@ -50,7 +51,18 @@ namespace TDC
 
 		void Game::setEditionMode(const std::string &mapFilePath)
 		{
-			//todo
+			if (_mode)
+			{
+				removeSubscriber(_mode->getHandle());
+				_mode->removeSubscriber(getHandle());
+				_mode.release();
+			}
+			_mode = std::make_unique<MapCreationMenuBehaviour>();
+			addSubscriber(_mode->getHandle());
+			_mode->addSubscriber(getHandle());
+			_mode->init();
+			// we publish the size of the window to resize buttons
+			publish<Msg::Resize>(_window.getSize());
 		}
 
 		void Game::setLaunchMode()
