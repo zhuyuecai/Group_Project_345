@@ -5,6 +5,7 @@
 #include <cereal/types/vector.hpp>
 
 #include "ObserverPattern.hpp"
+#include "IButton.hpp"
 
 namespace TDC
 {
@@ -15,7 +16,7 @@ namespace TDC
 		, None = 1
 	};
 
-	class Map : public PubSub
+	class Map : public RectArea
 	{
 	private:
 		std::vector<Cell> _array;

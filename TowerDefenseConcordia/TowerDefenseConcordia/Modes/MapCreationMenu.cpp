@@ -4,9 +4,11 @@ namespace TDC
 {
 	void MapCreationMenuBehaviour::init()
 	{
+
 		subcribeToMessage<Msg::Resize>([this](const IMessage *msg)
 		{
-			publish<Msg::Resize>(*static_cast<const Msg::Resize*>(msg));
+			auto *m = static_cast<const Msg::Resize *>(msg);
+			this->setRootArea(m->size.x, m->size.y);
 		});
 
 		subcribeToMessage<Msg::Event>([this](const IMessage *msg)
@@ -21,7 +23,7 @@ namespace TDC
 			, sf::Color::Red
 			, sf::Color::Yellow
 			, 20);
-		addSubscriber(_mapName->getHandle());
+		_mapName->setParent(this);
 
 		_mapWidth = std::make_unique<NumberInput>(
 			sf::Vector2u(50, 25)
@@ -29,7 +31,8 @@ namespace TDC
 			, sf::Color::Blue
 			, sf::Color::Magenta
 			, 20);
-		addSubscriber(_mapWidth->getHandle());
+		_mapWidth->setParent(this);
+
 
 		_mapHeight = std::make_unique<NumberInput>(
 			sf::Vector2u(50, 40)
@@ -37,7 +40,7 @@ namespace TDC
 			, sf::Color::Blue
 			, sf::Color::Magenta
 			, 20);
-		addSubscriber(_mapHeight->getHandle());
+		_mapHeight->setParent(this);
 	}
 
 	void MapCreationMenuBehaviour::update(const sf::Time &dt, sf::RenderWindow *renderWindow)

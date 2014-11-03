@@ -10,18 +10,19 @@ namespace TDC
 
 	void DemoMap::init()
 	{
-		_map.addSubscriber(getHandle());
-		addSubscriber(_map.getHandle());
-
 		subcribeToMessage<Msg::Resize>([this](const IMessage *msg)
 		{
 			computeCellSizeRatio(static_cast<const Msg::Resize*>(msg)->size);
+			auto *m = static_cast<const Msg::Resize *>(msg);
+			this->setRootArea(m->size.x, m->size.y);
 		});
 
 		subcribeToMessage<Msg::Event>([this](const IMessage *msg)
 		{
 			_events(static_cast<const Msg::Event*>(msg)->event);
 		});
+
+		_map.setParent(this);
 
 		_arial.loadFromFile("../assets/arial.ttf");
 	}
@@ -39,6 +40,8 @@ namespace TDC
 	{
 		if (!_map.loadFromBinary(path))
 			generate();
+		_map.setPosition({ 0, 0 });
+		_map.setDimension({ 80, 80 });
 		_critters.clear();
 	}
 

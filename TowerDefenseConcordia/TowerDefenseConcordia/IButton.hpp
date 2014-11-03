@@ -85,7 +85,7 @@ namespace TDC
 			_percent.height = 100;
 			_parentBox = { 0, 0, pxWidth, pxHeight };
 			_root = true;
-			//_updateBBox();
+			_updateBBox();
 		}
 
 	protected:
@@ -113,9 +113,9 @@ namespace TDC
 			float w = _parentBox.width * _percent.width / 100.0f;
 			float h = _parentBox.height * _percent.height / 100.0f;
 
-			_pixels.left = (_parentBox.left * _percent.left / 100.0f) - (w / 2.0f);
+			_pixels.left = _parentBox.left + (_parentBox.width * _percent.left / 100.0f) - (w / 2.0f);
 			_pixels.width = w;
-			_pixels.top = (_parentBox.top * _percent.top / 100.0f) - (h / 2.0f);
+			_pixels.top = _parentBox.top + (_parentBox.height * _percent.top / 100.0f) - (h / 2.0f);
 			_pixels.height = h;
 		}
 

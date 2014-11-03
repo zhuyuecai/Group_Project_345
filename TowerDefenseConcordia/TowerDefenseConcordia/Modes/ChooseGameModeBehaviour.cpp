@@ -4,9 +4,11 @@ namespace TDC
 {
 	void ChooseGameModeBehaviour::init()
 	{
+
 		subcribeToMessage<Msg::Resize>([this](const IMessage *msg)
 		{
-			publish<Msg::Resize>(*static_cast<const Msg::Resize*>(msg));
+			auto *m = static_cast<const Msg::Resize *>(msg);
+			this->setRootArea(m->size.x, m->size.y);
 		});
 
 		subcribeToMessage<Msg::Event>([this](const IMessage *msg)
@@ -21,7 +23,7 @@ namespace TDC
 			, sf::Color::Blue
 			, sf::Color::Green
 			, 20);
-		addSubscriber(_randomMap->getHandle());
+		_randomMap->setParent(this);
 
 		_randomMap->setOnClickCallback([&](){
 			this->publish<Msg::PlayMode>(Msg::PlayMode::Mode::Play, "__RANDOM__");
@@ -35,7 +37,7 @@ namespace TDC
 			, sf::Color::Red
 			, sf::Color::Yellow
 			, 20);
-		addSubscriber(_loadMap->getHandle());
+		_loadMap->setParent(this);
 
 		_loadMap->setOnClickCallback([&](){
 			this->publish<Msg::PlayMode>(Msg::PlayMode::Mode::Play, "testMapBinary.bin");
