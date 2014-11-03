@@ -10,7 +10,7 @@
 
 namespace TDC
 {
-	class TextButton : public IButton
+	class TextButton : public RectArea
 	{
 	public:
 		TextButton(sf::Vector2u position = sf::Vector2u(0, 0) /*percent*/

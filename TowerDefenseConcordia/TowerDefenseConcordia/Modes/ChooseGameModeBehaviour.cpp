@@ -21,7 +21,6 @@ namespace TDC
 			, sf::Color::Blue
 			, sf::Color::Green
 			, 20);
-		_randomMap->init();
 		addSubscriber(_randomMap->getHandle());
 
 		_randomMap->setOnClickCallback([&](){
@@ -36,7 +35,6 @@ namespace TDC
 			, sf::Color::Red
 			, sf::Color::Yellow
 			, 20);
-		_loadMap->init();
 		addSubscriber(_loadMap->getHandle());
 
 		_loadMap->setOnClickCallback([&](){

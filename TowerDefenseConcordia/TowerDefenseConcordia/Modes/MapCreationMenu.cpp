@@ -21,7 +21,6 @@ namespace TDC
 			, sf::Color::Red
 			, sf::Color::Yellow
 			, 20);
-		_mapName->init();
 		addSubscriber(_mapName->getHandle());
 
 		_mapWidth = std::make_unique<NumberInput>(
@@ -30,7 +29,6 @@ namespace TDC
 			, sf::Color::Blue
 			, sf::Color::Magenta
 			, 20);
-		_mapWidth->init();
 		addSubscriber(_mapWidth->getHandle());
 
 		_mapHeight = std::make_unique<NumberInput>(
@@ -39,7 +37,6 @@ namespace TDC
 			, sf::Color::Blue
 			, sf::Color::Magenta
 			, 20);
-		_mapHeight->init();
 		addSubscriber(_mapHeight->getHandle());
 	}
 

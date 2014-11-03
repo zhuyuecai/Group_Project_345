@@ -28,7 +28,7 @@ namespace TDC
 			_text.setString(str);
 			if (str.size() == 0)
 				return;
-			_computeBoundingBox();
+			_resized();
 		}
 		if (!_focus)
 		{
@@ -39,7 +39,7 @@ namespace TDC
 				_text.setString(std::to_string(_min));
 			else if (v > _max)
 				_text.setString(std::to_string(_max));
-			_computeBoundingBox();
+			_resized();
 		}
 	}
 }

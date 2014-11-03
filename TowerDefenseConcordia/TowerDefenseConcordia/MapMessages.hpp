@@ -35,11 +35,10 @@ namespace TDC
 			enum Mode
 			{
 				MainMenu = 0,
-				LoadMap,
-				CreateMap,
-				EditMap,
+				LoadMapMenu,
+				CreateMapMenu,
 				Play,
-				ChoosePlayMode
+				ChoosePlayModeMenu
 			};
 			Mode mode;
 			std::string argument;

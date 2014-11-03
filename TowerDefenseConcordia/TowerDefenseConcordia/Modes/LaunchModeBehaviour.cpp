@@ -6,7 +6,8 @@ namespace TDC
 		{
 			subcribeToMessage<Msg::Resize>([this](const IMessage *msg)
 			{
-				publish<Msg::Resize>(*static_cast<const Msg::Resize*>(msg));
+				auto *m = static_cast<const Msg::Resize *>(msg);
+				setRootArea(m->size.x, m->size.y);
 			});
 
 			subcribeToMessage<Msg::Event>([this](const IMessage *msg)
@@ -21,11 +22,10 @@ namespace TDC
 				, sf::Color::Blue
 				, sf::Color::Green
 				, 20);
-			_play->init();
-			addSubscriber(_play->getHandle());
+			_play->setParent(this);
 
 			_play->setOnClickCallback([&](){
-				this->publish<Msg::PlayMode>(Msg::PlayMode::Mode::ChoosePlayMode, "");
+				this->publish<Msg::PlayMode>(Msg::PlayMode::Mode::ChoosePlayModeMenu, "");
 			});
 
 
@@ -36,11 +36,10 @@ namespace TDC
 				, sf::Color::Red
 				, sf::Color::Yellow
 				, 20);
-			_edit->init();
-			addSubscriber(_edit->getHandle());
+			_edit->setParent(this);
 
 			_edit->setOnClickCallback([&](){
-				this->publish<Msg::PlayMode>(Msg::PlayMode::Mode::CreateMap, "");
+				this->publish<Msg::PlayMode>(Msg::PlayMode::Mode::CreateMapMenu, "");
 			});
 
 		}

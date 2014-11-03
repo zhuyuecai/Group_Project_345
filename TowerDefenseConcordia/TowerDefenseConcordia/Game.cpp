@@ -88,13 +88,10 @@ namespace TDC
 				const auto *m = static_cast<const Msg::PlayMode*>(msg);
 				switch (m->mode)
 				{
-				case Msg::PlayMode::CreateMap:
+				case Msg::PlayMode::CreateMapMenu:
 					setEditionMode(m->argument);
 					break;
-				case Msg::PlayMode::EditMap:
-					setEditionMode(m->argument);
-					break;
-				case Msg::PlayMode::LoadMap:
+				case Msg::PlayMode::LoadMapMenu:
 					setPlayMode(m->argument);
 					break;
 				case Msg::PlayMode::MainMenu:
@@ -103,7 +100,7 @@ namespace TDC
 				case Msg::PlayMode::Play:
 					setPlayMode(m->argument);
 					break;
-				case Msg::PlayMode::ChoosePlayMode:
+				case Msg::PlayMode::ChoosePlayModeMenu:
 					setChoosePlayMode(m->argument);
 					break;
 				default:

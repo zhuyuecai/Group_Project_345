@@ -45,7 +45,7 @@ namespace TDC
 				str = str.substr(0, str.size() - 1);
 				_text.setString(str);
 			}
-			_computeBoundingBox();
+			_resized();
 		}
 	}
 }

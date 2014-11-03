@@ -4,64 +4,168 @@
 #include "ObserverPattern.hpp"
 #include <sfml/Graphics/RenderWindow.hpp>
 #include "MapMessages.hpp"
+#include <SFML/Graphics/Rect.hpp>
 
 namespace TDC
 {
-	// Button interface
-	class IButton : public PubSub
+	typedef sf::Rect<float> Rect;
+
+	class RectArea : public PubSub
 	{
 	public:
-		IButton(sf::Vector2u position = sf::Vector2u(0, 0) /*percent*/
-			, sf::Vector2u dimensions = sf::Vector2u(0, 0) /*percent*/);
-	
-		virtual ~IButton();
+
+		struct BoundingUpdate : Message < BoundingUpdate >
+		{
+			BoundingUpdate() = delete;
+			BoundingUpdate(const Rect &_rect)
+				: rect(_rect)
+			{
+
+			}
+			Rect rect;
+		};
+
+		RectArea(sf::Vector2u position = sf::Vector2u(0, 0) /*percent*/
+			, sf::Vector2u dimensions = sf::Vector2u(100, 100) /*percent*/)
+			: _percent(Rect(position.x, position.y, dimensions.x, dimensions.y))
+			, _hover(false)
+			, _focus(false)
+			, _hasParent(false)
+		{
+			_setup();
+		}
+
+		RectArea(float percentPosX, float percentPosY, float percentWidth, float percentHeight)
+			: _percent(Rect(percentPosX, percentPosY, percentWidth, percentHeight))
+			, _hover(false)
+			, _focus(false)
+			, _hasParent(false)
+		{
+			_setup();
+		}
+   
+
+		virtual ~RectArea(){}
+
+		void setParent(RectArea *parent)
+		{
+			parent->addSubscriber(this->getHandle());
+			_parentBox = parent->_pixels;
+			_updateBBox();
+		}
 
 		inline void setPosition(const sf::Vector2u &position)
 		{
-			_position = position;
+			_percent.left = position.x;
+			_percent.top = position.y;
+			_updateBBox();
 		}
 
 		inline void setDimension(const sf::Vector2u &dimension)
 		{
-			_dimensions = dimension;
+			_percent.width = dimension.x;
+			_percent.height = dimension.y;
+			_updateBBox();
 		}
 
-		inline void setActive(bool tof)
+
+		void update(const sf::Time &dt, sf::RenderWindow *window)
 		{
-			_active = tof;
+			_update(dt, window);
 		}
 
-		void update(const sf::Time &dt, sf::RenderWindow *window);
-		void init();
-		inline bool isPointIn(unsigned int x, unsigned int y)
+		bool isPointIn(float x, float y)
 		{
-			if (_dirty)
-			{				
-				_computeBoundingBox();
-			}
-			return (x >= _bbX.x && x <= _bbX.y && y >= _bbY.x && y <= _bbY.y);
+			return _pixels.contains(x, y);
 		}
 
 		inline void setOnClickCallback(const std::function<void()> &fn)
 		{
 			_onClickCallback = fn;
 		}
-	protected:
-		virtual void _update(const sf::Time &dt, sf::RenderWindow *window) = 0;
-		virtual void _onClick() = 0;
-		virtual void _event(const sf::Event &event) = 0;
-		virtual void _init() = 0;
-		virtual void _resized() = 0;
 
-		void _computeBoundingBox();
+		inline void setOnHoverCallback(const std::function<void()> &fn)
+		{
+			_onHoverCallback = fn;
+		}
+
+		void setRootArea(float pxWidth, float pxHeight)
+		{
+			_percent.top = 50;
+			_percent.left = 50;
+			_percent.width = 100;
+			_percent.height = 100;
+			_parentBox = { 0, 0, pxWidth, pxHeight };
+			_updateBBox();
+		}
+
+	protected:
+		virtual void _update(const sf::Time &dt, sf::RenderWindow *window){};
+		virtual void _onClick(){};
+		virtual void _onHover(){};
+		virtual void _event(const sf::Event &event){};
+		virtual void _init(){};
+		virtual void _resized(){};
+
+		void _updateBBox()
+		{
+			_computeBBox();
+			_resized();
+			this->publish<BoundingUpdate>(_pixels);
+		}
+
+		void _computeBBox()
+		{
+			float w = _parentBox.width * _percent.width / 100.0f;
+			float h = _parentBox.height * _percent.height / 100.0f;
+
+			_pixels.left = (_parentBox.left * _percent.left / 100.0f) - (w / 2.0f);
+			_pixels.width = w;
+			_pixels.top = (_parentBox.top * _percent.top / 100.0f) - (h / 2.0f);
+			_pixels.height = h;
+		}
 
 		std::function<void()> _onClickCallback;
-		sf::Vector2u _position;
-		sf::Vector2u _dimensions;
-		bool _active;
-		bool _dirty;
-		sf::Vector2u _bbX;
-		sf::Vector2u _bbY;
-		sf::Vector2u _windowSize;
+		std::function<void()> _onHoverCallback;
+		bool _hover;
+		bool _focus;
+		bool _hasParent;
+		Rect _pixels;
+		Rect _percent;
+		Rect _parentBox;
+private:
+	void _setup()
+	{
+		this->subcribeToMessage<BoundingUpdate>([&](const IMessage *msg)
+		{
+			auto *m = static_cast<const BoundingUpdate*>(msg);
+			_parentBox = m->rect;
+			_updateBBox();
+		});
+
+		this->subcribeToMessage<Msg::Event>([&](IMessage *msg)
+		{
+			auto *m = static_cast <Msg::Event*>(msg);
+			if (m->event.type == sf::Event::MouseButtonReleased
+				&& isPointIn(m->event.mouseButton.x, m->event.mouseButton.y))
+			{
+				_onClick();
+				if (_onClickCallback)
+					_onClickCallback();
+			}
+			else if (m->event.type == sf::Event::MouseMoved
+				&& isPointIn(m->event.mouseMove.x, m->event.mouseMove.y))
+			{
+				_onHover();
+				if (_onHoverCallback)
+					_onHoverCallback();
+			}
+
+			_event(m->event);
+			publish<Msg::Event>(m->event);
+		});
+
+		_init();
+	}
 	};
 }
