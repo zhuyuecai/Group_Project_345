@@ -107,7 +107,7 @@ namespace TDC
 			if (event.type == sf::Event::Resized)
 			{
 				publish<Msg::Resize>(_window.getSize());
-				_window.setView(sf::View(sf::FloatRect(0, 0, _window.getSize().x, _window.getSize().y)));
+				_window.setView(sf::View(sf::FloatRect(0.0f, 0.0f, (float)_window.getSize().x, (float)_window.getSize().y)));
 			}
 		}
 

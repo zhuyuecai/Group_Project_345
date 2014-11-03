@@ -49,10 +49,10 @@ namespace TDC
 		float w = size.x * (float)_dimensions.x / 100.0f;
 		float h = size.y * (float)_dimensions.y / 100.0f;
 
-		_bbX.x = (size.x * (float)_position.x / 100.0f) - (w / 2.0f);
-		_bbX.y = _bbX.x + w;
-		_bbY.x = (size.y * (float)_position.y / 100.0f) - (h / 2.0f);
-		_bbY.y = _bbY.x + h;
+		_bbX.x = (unsigned int)((size.x * (float)_position.x / 100.0f) - (w / 2.0f));
+		_bbX.y = (unsigned int)(_bbX.x + w);
+		_bbY.x = (unsigned int)((size.y * (float)_position.y / 100.0f) - (h / 2.0f));
+		_bbY.y = (unsigned int)(_bbY.x + h);
 		_dirty = false;
 		_resized();
 	}

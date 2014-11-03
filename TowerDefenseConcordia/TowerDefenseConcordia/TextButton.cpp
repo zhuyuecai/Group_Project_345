@@ -18,12 +18,12 @@ namespace TDC
 			assert(_font->loadFromFile("../assets/arial.ttf"));
 		});
 		_computeBoundingBox();
-		_shape.setPosition(_bbX.x, _bbY.x);
-		_shape.setSize(sf::Vector2f(_bbX.y - _bbX.x, _bbY.y - _bbY.x));
+		_shape.setPosition((float)_bbX.x, (float)_bbY.x);
+		_shape.setSize(sf::Vector2f((float)(_bbX.y - _bbX.x), (float)(_bbY.y - _bbY.x)));
 		_shape.setFillColor(bgColor);
 		_text.setFont(*_font);
 		_text.setCharacterSize(fontSize);
-		_text.setPosition(_bbX.x, _bbY.y);
+		_text.setPosition((float)_bbX.x, (float)_bbY.y);
 		_text.setColor(textColor);
 		_text.setString(text);
 	}
@@ -51,8 +51,8 @@ namespace TDC
 
 	void TextButton::_resized()
 	{
-		_shape.setPosition(_bbX.x, _bbY.x);
-		_shape.setSize(sf::Vector2f(_bbX.y - _bbX.x, _bbY.y - _bbY.x));
-		_text.setPosition(_bbX.x + (_bbX.y - _bbX.x) / 2.0f - _text.getLocalBounds().width / 2.0f, _bbY.x + (_bbY.y - _bbY.x) / 2.0f - _text.getLocalBounds().height / 2.0f);
+		_shape.setPosition((float)_bbX.x, (float)_bbY.x);
+		_shape.setSize(sf::Vector2f((float)_bbX.y - _bbX.x, (float)_bbY.y - _bbY.x));
+		_text.setPosition((float)_bbX.x + (_bbX.y - _bbX.x) / 2.0f - _text.getLocalBounds().width / 2.0f, (float)_bbY.x + (_bbY.y - _bbY.x) / 2.0f - _text.getLocalBounds().height / 2.0f);
 	}
 }

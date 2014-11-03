@@ -227,7 +227,7 @@ namespace TDC
 		if (!file.is_open())
 			return false;
 		{
-			auto x = 0;
+			std::size_t x = 0;
 			for (auto &e : _array)
 			{
 				file << (int)e.getType();

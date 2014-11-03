@@ -33,7 +33,7 @@ namespace TDC
 
 		void update(const sf::Time &dt, sf::RenderWindow *window);
 		void init();
-		inline bool isPointIn(int x, int y)
+		inline bool isPointIn(unsigned int x, unsigned int y)
 		{
 			if (_dirty)
 			{				

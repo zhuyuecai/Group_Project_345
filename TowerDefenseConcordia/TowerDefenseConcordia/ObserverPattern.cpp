@@ -45,7 +45,7 @@ namespace TDC
 
 	void Publisher::removeSubscriber(std::shared_ptr<Subscriber::Handle> handle)
 	{
-		for (auto i = 0; i < _subscribers.size(); ++i)
+		for (std::size_t i = 0; i < _subscribers.size(); ++i)
 		{
 			if (_subscribers[i]->ptr == handle->ptr)
 			{
@@ -58,7 +58,7 @@ namespace TDC
 
 	void Publisher::removeEmptySubscribers()
 	{
-		for (auto i = 0; i < _subscribers.size(); ++i)
+		for (std::size_t i = 0; i < _subscribers.size(); ++i)
 		{
 			if (!_subscribers[i]->valid)
 			{

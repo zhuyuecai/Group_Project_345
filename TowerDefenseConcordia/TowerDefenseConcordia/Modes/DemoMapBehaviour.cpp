@@ -50,7 +50,7 @@ namespace TDC
 
 		sf::RectangleShape rectangle;
 		rectangle.setFillColor(sf::Color(150, 50, 250));
-		rectangle.setSize(sf::Vector2f(_cellSizeRatio, _cellSizeRatio));
+		rectangle.setSize(sf::Vector2f((float)_cellSizeRatio, (float)_cellSizeRatio));
 
 		sf::CircleShape circle;
 		circle.setRadius(_cellSizeRatio / 2.0f);
@@ -60,7 +60,7 @@ namespace TDC
 			auto &e = mapArray[i];
 			if (e.getType() == CellType::Wall)
 			{
-				rectangle.setPosition((i % w) * _cellSizeRatio, (i / w) * _cellSizeRatio);
+				rectangle.setPosition((float)((i % w) * _cellSizeRatio), (float)((i / w) * _cellSizeRatio));
 				window->draw(rectangle);
 			}
 		}
