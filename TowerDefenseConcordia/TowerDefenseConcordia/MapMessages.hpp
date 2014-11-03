@@ -5,9 +5,13 @@
 
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
+#include <SFML/Graphics/Rect.hpp>
 
 namespace TDC
 {
+
+	typedef sf::Rect<float> Rect;
+
 	namespace Msg
 	{
 		// Message sent when window is resized
@@ -51,5 +55,18 @@ namespace TDC
 			PlayMode() = delete;
 
 		};
+
+		struct BoundingUpdate : Message < BoundingUpdate >
+		{
+			BoundingUpdate() = delete;
+			BoundingUpdate(const Rect &_rect)
+				: rect(_rect)
+			{
+
+			}
+			Rect rect;
+		};
+
+
 	}
 }

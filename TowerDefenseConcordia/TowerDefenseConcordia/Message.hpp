@@ -6,10 +6,10 @@ namespace TDC
 {
 	namespace __privateDetails
 	{
-		static const std::size_t &__getId()
+		static std::size_t __getId()
 		{
 			static std::size_t id = 0;
-			return id;
+			return ++id;
 		}
 	}
 
@@ -26,6 +26,11 @@ namespace TDC
 		}
 	protected:
 		std::size_t _id;
+		static std::size_t __getid()
+		{
+			static std::size_t __id = 0;
+			return __id++;
+		}
 	};
 
 	template <class T>
@@ -39,7 +44,7 @@ namespace TDC
 
 		static std::size_t getId()
 		{
-			static std::size_t id = const_cast<std::size_t &>(__privateDetails::__getId())++;
+			static std::size_t id = __getid();
 			return id;
 		}
 	};

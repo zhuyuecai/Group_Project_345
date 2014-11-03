@@ -3,34 +3,21 @@
 #include <sfml/System/Vector2.hpp>
 #include "ObserverPattern.hpp"
 #include <sfml/Graphics/RenderWindow.hpp>
-#include "MapMessages.hpp"
 #include <SFML/Graphics/Rect.hpp>
+#include "MapMessages.hpp"
 
 namespace TDC
 {
-	typedef sf::Rect<float> Rect;
-
 	class RectArea : public PubSub
 	{
 	public:
-
-		struct BoundingUpdate : Message < BoundingUpdate >
-		{
-			BoundingUpdate() = delete;
-			BoundingUpdate(const Rect &_rect)
-				: rect(_rect)
-			{
-
-			}
-			Rect rect;
-		};
-
 		RectArea(sf::Vector2u position = sf::Vector2u(0, 0) /*percent*/
 			, sf::Vector2u dimensions = sf::Vector2u(100, 100) /*percent*/)
 			: _percent(Rect(position.x, position.y, dimensions.x, dimensions.y))
 			, _hover(false)
 			, _focus(false)
 			, _hasParent(false)
+			, _root(false)
 		{
 			_setup();
 		}
@@ -40,6 +27,7 @@ namespace TDC
 			, _hover(false)
 			, _focus(false)
 			, _hasParent(false)
+			, _root(false)
 		{
 			_setup();
 		}
@@ -96,7 +84,8 @@ namespace TDC
 			_percent.width = 100;
 			_percent.height = 100;
 			_parentBox = { 0, 0, pxWidth, pxHeight };
-			_updateBBox();
+			_root = true;
+			//_updateBBox();
 		}
 
 	protected:
@@ -111,11 +100,16 @@ namespace TDC
 		{
 			_computeBBox();
 			_resized();
-			this->publish<BoundingUpdate>(_pixels);
+			this->publish<Msg::BoundingUpdate>(_pixels);
 		}
 
 		void _computeBBox()
 		{
+			if (_root)
+			{
+				_pixels = _parentBox;
+				return;
+			}
 			float w = _parentBox.width * _percent.width / 100.0f;
 			float h = _parentBox.height * _percent.height / 100.0f;
 
@@ -133,12 +127,13 @@ namespace TDC
 		Rect _pixels;
 		Rect _percent;
 		Rect _parentBox;
+		bool _root;
 private:
 	void _setup()
 	{
-		this->subcribeToMessage<BoundingUpdate>([&](const IMessage *msg)
+		this->subcribeToMessage<Msg::BoundingUpdate>([&](const IMessage *msg)
 		{
-			auto *m = static_cast<const BoundingUpdate*>(msg);
+			auto *m = static_cast<const Msg::BoundingUpdate*>(msg);
 			_parentBox = m->rect;
 			_updateBBox();
 		});
