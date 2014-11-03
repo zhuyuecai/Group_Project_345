@@ -1,12 +1,6 @@
 #pragma once
 
 #include "TextButton.hpp"
-#include <sfml/Graphics/RectangleShape.hpp>
-#include <sfml/Graphics/Text.hpp>
-#include <sfml/Graphics/Font.hpp>
-#include <mutex>
-#include <assert.h>
-#include <memory.h>
 
 namespace TDC
 {
@@ -19,7 +13,7 @@ namespace TDC
 			, const sf::Color &textColor = sf::Color(255, 255, 255, 255)
 			, const sf::Color &bgColor = sf::Color(122, 122, 122, 255)
 			, std::size_t fontSize = 20);
-		std::string getValue() const { return _text.getString(); }
+		inline std::string getValue() const { return _text.getString(); }
 		virtual ~TextInput(){}
 	protected:
 		virtual void _event(const sf::Event &event);

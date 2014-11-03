@@ -11,6 +11,7 @@ namespace TDC
 		: TextButton(position, dimensions, text, textColor, bgColor, fontSize)
 		, _focus(false)
 	{
+		_shape.setOutlineColor(textColor);
 	}
 
 	void TextInput::_event(const sf::Event &event)
@@ -18,15 +19,25 @@ namespace TDC
 		if (event.type == sf::Event::MouseButtonPressed)
 		{
 			if (this->isPointIn(event.mouseButton.x, event.mouseButton.y))
+			{
 				_focus = true;
+				_shape.setOutlineThickness(2.0f);
+			}
 			else
+			{
 				_focus = false;
+				_shape.setOutlineThickness(0.0f);
+			}
 		}
-		else if (event.type == sf::Event::KeyReleased && _focus)
+		else if (event.type == sf::Event::KeyPressed && _focus)
 		{
 			if (event.key.code >= sf::Keyboard::Key::A && event.key.code <= sf::Keyboard::Key::Z)
 			{
 				_text.setString(_text.getString() + (char)((unsigned short)('a') + event.key.code));
+			}
+			else if (event.key.code >= sf::Keyboard::Key::Num0 && event.key.code <= sf::Keyboard::Key::Num9)
+			{
+				_text.setString(_text.getString() + std::to_string(event.key.code - sf::Keyboard::Key::Num0));
 			}
 			else if (event.key.code == sf::Keyboard::Key::BackSpace && _text.getString().getSize() > 0)
 			{

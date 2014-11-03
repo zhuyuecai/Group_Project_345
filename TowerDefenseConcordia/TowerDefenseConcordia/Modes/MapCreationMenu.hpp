@@ -4,6 +4,7 @@
 #include "../MapMessages.hpp"
 #include <iostream>
 #include "../TextInput.hpp"
+#include "../NumberInput.hpp"
 
 namespace TDC
 {
@@ -15,5 +16,7 @@ namespace TDC
 		virtual ~MapCreationMenuBehaviour();
 	private:
 		std::unique_ptr<TextInput> _mapName;
+		std::unique_ptr<NumberInput> _mapWidth;
+		std::unique_ptr<NumberInput> _mapHeight;
 	};
 }

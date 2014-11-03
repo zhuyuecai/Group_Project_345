@@ -63,6 +63,9 @@
     <ClInclude Include="TextInput.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NumberInput.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cell.cpp">
@@ -102,6 +105,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Modes\MapCreationMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NumberInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
