@@ -110,7 +110,8 @@ namespace TDC
 
 		sf::Text text("Key 1 to create a critter of type 1.\n\
 Key 2 to create a critter of type 2.\n\
-Key G to generate a new map.", _arial, 20);
+Key G to generate a new map\n\
+Key ESC to go back to menu.", _arial, 20);
 		text.setColor(sf::Color::Red);
 		window->draw(text);
 	}
@@ -136,6 +137,10 @@ Key G to generate a new map.", _arial, 20);
 			else if (event.key.code == sf::Keyboard::G)
 			{
 				generate();
+			}
+			else if (event.key.code == sf::Keyboard::Escape)
+			{
+				publish<Msg::PlayMode>(Msg::PlayMode::MainMenu, "");
 			}
 		}
 	}
