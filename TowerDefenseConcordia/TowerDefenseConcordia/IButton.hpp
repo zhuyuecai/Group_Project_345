@@ -14,20 +14,18 @@ namespace TDC
 		RectArea(sf::Vector2u position = sf::Vector2u(0, 0) /*percent*/
 			, sf::Vector2u dimensions = sf::Vector2u(100, 100) /*percent*/)
 			: _percent(Rect(position.x, position.y, dimensions.x, dimensions.y))
-			, _hover(false)
-			, _focus(false)
 			, _hasParent(false)
 			, _root(false)
+			, _centered(true)
 		{
 			_setup();
 		}
 
 		RectArea(float percentPosX, float percentPosY, float percentWidth, float percentHeight)
 			: _percent(Rect(percentPosX, percentPosY, percentWidth, percentHeight))
-			, _hover(false)
-			, _focus(false)
 			, _hasParent(false)
 			, _root(false)
+			, _centered(true)
 		{
 			_setup();
 		}
@@ -88,6 +86,12 @@ namespace TDC
 			_updateBBox();
 		}
 
+		inline void setCentered(bool tof)
+		{
+			_centered = tof;
+			_updateBBox();
+		}
+
 	protected:
 		virtual void _update(const sf::Time &dt, sf::RenderWindow *window){};
 		virtual void _onClick(){};
@@ -110,24 +114,36 @@ namespace TDC
 				_pixels = _parentBox;
 				return;
 			}
-			float w = _parentBox.width * _percent.width / 100.0f;
-			float h = _parentBox.height * _percent.height / 100.0f;
+			if (_centered)
+			{
+				float w = _parentBox.width * _percent.width / 100.0f;
+				float h = _parentBox.height * _percent.height / 100.0f;
 
-			_pixels.left = _parentBox.left + (_parentBox.width * _percent.left / 100.0f) - (w / 2.0f);
-			_pixels.width = w;
-			_pixels.top = _parentBox.top + (_parentBox.height * _percent.top / 100.0f) - (h / 2.0f);
-			_pixels.height = h;
+				_pixels.left = _parentBox.left + (_parentBox.width * _percent.left / 100.0f) - (w / 2.0f);
+				_pixels.width = w;
+				_pixels.top = _parentBox.top + (_parentBox.height * _percent.top / 100.0f) - (h / 2.0f);
+				_pixels.height = h;
+			}
+			else
+			{
+				float w = _parentBox.width * _percent.width / 100.0f;
+				float h = _parentBox.height * _percent.height / 100.0f;
+
+				_pixels.left = _parentBox.left + (_parentBox.width * _percent.left / 100.0f);
+				_pixels.width = w;
+				_pixels.top = _parentBox.top + (_parentBox.height * _percent.top / 100.0f);
+				_pixels.height = h;
+			}
 		}
 
 		std::function<void()> _onClickCallback;
 		std::function<void()> _onHoverCallback;
-		bool _hover;
-		bool _focus;
 		bool _hasParent;
 		Rect _pixels;
 		Rect _percent;
 		Rect _parentBox;
 		bool _root;
+		bool _centered;
 private:
 	void _setup()
 	{

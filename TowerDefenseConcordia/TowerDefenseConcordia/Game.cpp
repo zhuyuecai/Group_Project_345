@@ -49,7 +49,7 @@ namespace TDC
 			publish<Msg::Resize>(_window.getSize());
 		}
 
-		void Game::setEditionMode(const std::string &mapFilePath)
+		void Game::setEditionMenuMode(const std::string &mapFilePath)
 		{
 			if (_mode)
 			{
@@ -63,6 +63,11 @@ namespace TDC
 			_mode->init();
 			// we publish the size of the window to resize buttons
 			publish<Msg::Resize>(_window.getSize());
+		}
+
+		void Game::setMapCreationMode(const std::string &mapFilePath)
+		{
+
 		}
 
 		void Game::setLaunchMode()
@@ -89,7 +94,7 @@ namespace TDC
 				switch (m->mode)
 				{
 				case Msg::PlayMode::CreateMapMenu:
-					setEditionMode(m->argument);
+					setEditionMenuMode(m->argument);
 					break;
 				case Msg::PlayMode::LoadMapMenu:
 					setPlayMode(m->argument);
@@ -102,6 +107,9 @@ namespace TDC
 					break;
 				case Msg::PlayMode::ChoosePlayModeMenu:
 					setChoosePlayMode(m->argument);
+					break;
+				case Msg::PlayMode::CreateMap:
+					setMapCreationMode(m->argument);
 					break;
 				default:
 					break;

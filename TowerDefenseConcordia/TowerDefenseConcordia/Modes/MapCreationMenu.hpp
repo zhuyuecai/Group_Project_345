@@ -18,5 +18,6 @@ namespace TDC
 		std::unique_ptr<TextInput> _mapName;
 		std::unique_ptr<NumberInput> _mapWidth;
 		std::unique_ptr<NumberInput> _mapHeight;
+		std::unique_ptr<TextButton> _okay;
 	};
 }

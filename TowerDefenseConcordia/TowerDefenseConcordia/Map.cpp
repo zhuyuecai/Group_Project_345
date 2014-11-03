@@ -10,7 +10,9 @@ namespace TDC
 		, _height(INVALID)
 		, _start(0)
 		, _end(0)
-	{}
+	{
+		setCentered(false);
+	}
 
 	Map::~Map()
 	{}
