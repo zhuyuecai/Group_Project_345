@@ -2,6 +2,7 @@
 #include <fstream>
 #include "MapMessages.hpp"
 #include "Critter.hpp"
+#include "SFML/Graphics/RectangleShape.hpp"
 
 namespace TDC
 {
@@ -65,12 +66,16 @@ namespace TDC
 
 	void Map::setStart(std::size_t y)
 	{
+		_array[_start * _width]._type = CellType::Wall;
 		_start = y;
+		_array[_start * _width]._type = CellType::Path;
 	}
 
 	void Map::setEnd(std::size_t y)
 	{
+		_array[_end * _width + _width]._type = CellType::Wall;
 		_end = y;
+		_array[_end * _width + _width]._type = CellType::Path;
 	}
 
 	bool Map::generate(PathGenerationOption option)
@@ -281,6 +286,23 @@ namespace TDC
 				std::cerr << "error !!!";
 			}
 			d = c->_index;
+		}
+	}
+
+	void Map::update(const sf::Time &dt, sf::RenderWindow *window)
+	{
+		sf::RectangleShape rectangle;
+		rectangle.setFillColor(sf::Color(150, 50, 250));
+		rectangle.setSize(sf::Vector2f((float)_cellRatio, (float)_cellRatio));
+
+		for (std::size_t i = 0; i < _array.size(); ++i)
+		{
+			auto &e = _array[i];
+			if (e.getType() == CellType::Wall)
+			{
+				rectangle.setPosition((float)((i % _width) * _cellRatio), (float)((i / _width) * _cellRatio));
+				window->draw(rectangle);
+			}
 		}
 	}
 }

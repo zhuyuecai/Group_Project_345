@@ -1,4 +1,5 @@
 #include "MapCreationMenu.hpp"
+#include "../Game.hpp"
 
 namespace TDC
 {
@@ -18,9 +19,8 @@ namespace TDC
 
 			if (m->event.key.code == sf::Keyboard::Escape)
 			{
-				publish<Msg::PlayMode>(Msg::PlayMode::MainMenu, "");
+				_game->setMainMenu();
 			}
-
 		});
 
 		_mapName = std::make_unique<TextInput>(
@@ -61,7 +61,7 @@ namespace TDC
 		_okay->setOnClickCallback([&](){
 			if (_mapName->getValue().size() == 0)
 				return;
-			publish<Msg::PlayMode>(Msg::PlayMode::CreateMap, _mapName->getValue());
+			_game->setMapCreationMode(_mapName->getValue(), _mapWidth->getInt(), _mapHeight->getInt());
 		});
 	}
 

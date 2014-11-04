@@ -18,6 +18,7 @@ namespace TDC
 				_mode.release();
 			}
 			_mode = std::make_unique<InGameScene>();
+			_mode->setGamePtr(this);
 			addSubscriber(_mode->getHandle());
 			_mode->addSubscriber(getHandle());
 			_mode->init();
@@ -33,7 +34,7 @@ namespace TDC
 			publish<Msg::Resize>(_window.getSize());
 		}
 
-		void Game::setChoosePlayMode(const std::string &mapFilePath)
+		void Game::setChoosePlayMode()
 		{
 			if (_mode)
 			{
@@ -42,6 +43,7 @@ namespace TDC
 				_mode.release();
 			}
 			_mode = std::make_unique<ChooseGameModeScene>();
+			_mode->setGamePtr(this);
 			addSubscriber(_mode->getHandle());
 			_mode->addSubscriber(getHandle());
 			_mode->init();
@@ -49,7 +51,7 @@ namespace TDC
 			publish<Msg::Resize>(_window.getSize());
 		}
 
-		void Game::setEditionMenuMode(const std::string &mapFilePath)
+		void Game::setEditionMenuMode()
 		{
 			if (_mode)
 			{
@@ -57,6 +59,7 @@ namespace TDC
 				_mode->removeSubscriber(getHandle());
 				_mode.release();
 			}
+			_mode->setGamePtr(this);
 			_mode = std::make_unique<MapCreationMenuBehaviour>();
 			addSubscriber(_mode->getHandle());
 			_mode->addSubscriber(getHandle());
@@ -65,12 +68,24 @@ namespace TDC
 			publish<Msg::Resize>(_window.getSize());
 		}
 
-		void Game::setMapCreationMode(const std::string &mapFilePath)
+		void Game::setMapCreationMode(const std::string &mapFilePath, std::size_t width, std::size_t height)
 		{
-
+			if (_mode)
+			{
+				removeSubscriber(_mode->getHandle());
+				_mode->removeSubscriber(getHandle());
+				_mode.release();
+			}
+			_mode->setGamePtr(this);
+			_mode = std::make_unique<MapCreationMenuBehaviour>();
+			addSubscriber(_mode->getHandle());
+			_mode->addSubscriber(getHandle());
+			_mode->init();
+			// we publish the size of the window to resize buttons
+			publish<Msg::Resize>(_window.getSize());
 		}
 
-		void Game::setLaunchMode()
+		void Game::setMainMenu()
 		{
 			if (_mode)
 			{
@@ -78,6 +93,7 @@ namespace TDC
 				_mode->removeSubscriber(getHandle());
 			}
 			_mode = std::make_unique<LaunchModeBehaviour>();
+			_mode->setGamePtr(this);
 			addSubscriber(_mode->getHandle());
 			_mode->addSubscriber(getHandle());
 			_mode->init();
@@ -88,33 +104,6 @@ namespace TDC
 		void Game::init()
 		{
 			WindowManager::init();
-
-			subcribeToMessage<Msg::PlayMode>([this](const IMessage *msg){
-				const auto *m = static_cast<const Msg::PlayMode*>(msg);
-				switch (m->mode)
-				{
-				case Msg::PlayMode::CreateMapMenu:
-					setEditionMenuMode(m->argument);
-					break;
-				case Msg::PlayMode::LoadMapMenu:
-					setPlayMode(m->argument);
-					break;
-				case Msg::PlayMode::MainMenu:
-					setLaunchMode();
-					break;
-				case Msg::PlayMode::Play:
-					setPlayMode(m->argument);
-					break;
-				case Msg::PlayMode::ChoosePlayModeMenu:
-					setChoosePlayMode(m->argument);
-					break;
-				case Msg::PlayMode::CreateMap:
-					setMapCreationMode(m->argument);
-					break;
-				default:
-					break;
-				}
-			});
 		}
 
 		void Game::_updateEvents(const sf::Event &event)

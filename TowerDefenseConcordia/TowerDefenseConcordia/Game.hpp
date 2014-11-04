@@ -23,13 +23,13 @@ namespace TDC
 		// Game
 		void setPlayMode(const std::string &mapFilePath);
 		// Choose game mode menu
-		void setChoosePlayMode(const std::string &mapFilePath);
+		void setChoosePlayMode();
 		// Edition menu
-		void setEditionMenuMode(const std::string &mapFilePath);
+		void setEditionMenuMode();
 		// Map creation mode
-		void setMapCreationMode(const std::string &mapFilePath);
+		void setMapCreationMode(const std::string &mapFilePath, std::size_t width, std::size_t height);
 		// Main menu mode
-		void setLaunchMode();	
+		void setMainMenu();	
 		// Initialization
 		virtual void init();
 	protected:

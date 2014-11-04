@@ -1,4 +1,5 @@
 #include "InGameScene.hpp"
+#include "../Game.hpp"
 
 namespace TDC
 {
@@ -12,7 +13,6 @@ namespace TDC
 	{
 		subcribeToMessage<Msg::Resize>([this](const IMessage *msg)
 		{
-			computeCellSizeRatio(static_cast<const Msg::Resize*>(msg)->size);
 			auto *m = static_cast<const Msg::Resize *>(msg);
 			this->setRootArea(m->size.x, m->size.y);
 		});
@@ -47,26 +47,11 @@ namespace TDC
 
 	void InGameScene::update(const sf::Time &dt, sf::RenderWindow *window)
 	{
-		auto &mapArray = _map.getArray();
-		auto w = _map.getWidth();
-		auto h = _map.getHeight();
-
-		sf::RectangleShape rectangle;
-		rectangle.setFillColor(sf::Color(150, 50, 250));
-		rectangle.setSize(sf::Vector2f((float)_cellSizeRatio, (float)_cellSizeRatio));
+		_map.update(dt, window);
+		auto _cellSizeRatio = _map.getCellRatio();
 
 		sf::CircleShape circle;
 		circle.setRadius(_cellSizeRatio / 2.0f);
-
-		for (std::size_t i = 0; i < mapArray.size(); ++i)
-		{
-			auto &e = mapArray[i];
-			if (e.getType() == CellType::Wall)
-			{
-				rectangle.setPosition((float)((i % w) * _cellSizeRatio), (float)((i / w) * _cellSizeRatio));
-				window->draw(rectangle);
-			}
-		}
 
 		for (std::size_t i = 0; i < _critters.size(); ++i)
 		{
@@ -143,18 +128,8 @@ Key ESC to go back to menu.", _arial, 20);
 			}
 			else if (event.key.code == sf::Keyboard::Escape)
 			{
-				publish<Msg::PlayMode>(Msg::PlayMode::MainMenu, "");
+				_game->setMainMenu();
 			}
 		}
-	}
-
-	void InGameScene::computeCellSizeRatio(sf::Vector2u size)
-	{
-		auto w = _map.getWidth();
-		auto h = _map.getHeight();
-
-		_cellSizeRatio = size.x / w;
-		_cellSizeRatio = size.y / h < _cellSizeRatio ? size.y / h : _cellSizeRatio;
-		_map.setCellSizeRatio(_cellSizeRatio);
 	}
 }

@@ -12,7 +12,7 @@ int main(void)
 	game.init();
 
 	// We set Game mode (main menu)
-	game.setLaunchMode();
+	game.setMainMenu();
 
 	// We launch game loop
 	game.launch();

@@ -23,7 +23,6 @@ namespace TDC
 		virtual void update(const sf::Time &dt, sf::RenderWindow *window);
 	private:
 		void _events(const sf::Event &event);
-		void computeCellSizeRatio(sf::Vector2u size);
 		Map _map;
 		std::size_t _cellSizeRatio;
 		sf::Font _arial;

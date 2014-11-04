@@ -1,4 +1,5 @@
 #include "ChooseGameModeScene.hpp"
+#include "../Game.hpp"
 
 namespace TDC
 {
@@ -25,8 +26,9 @@ namespace TDC
 			, 20);
 		_randomMap->setParent(this);
 
-		_randomMap->setOnClickCallback([&](){
-			this->publish<Msg::PlayMode>(Msg::PlayMode::Mode::Play, "__RANDOM__");
+		_randomMap->setOnClickCallback([&]()
+		{
+			_game->setPlayMode("__RANDOM__");
 		});
 
 
@@ -39,8 +41,9 @@ namespace TDC
 			, 20);
 		_loadMap->setParent(this);
 
-		_loadMap->setOnClickCallback([&](){
-			this->publish<Msg::PlayMode>(Msg::PlayMode::Mode::Play, "testMapBinary.bin");
+		_loadMap->setOnClickCallback([&]()
+		{
+			_game->setPlayMode("testMapBinary.bin");
 		});
 
 	}

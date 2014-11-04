@@ -6,6 +6,7 @@
 
 namespace TDC
 {
+	class Game;
 	class Scene : public RectArea
 	{
 	public:
@@ -16,5 +17,8 @@ namespace TDC
 		virtual void update(const sf::Time &dt, sf::RenderWindow *renderWindow) = 0;
 		virtual ~Scene()
 		{}
+		inline void setGamePtr(Game *ptr) { _game = ptr; }
+	protected:
+		Game *_game;
 	};
 }

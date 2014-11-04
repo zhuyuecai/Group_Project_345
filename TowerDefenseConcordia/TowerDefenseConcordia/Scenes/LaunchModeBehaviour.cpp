@@ -1,4 +1,5 @@
 #include "LaunchModeBehaviour.hpp"
+#include "../Game.hpp"
 
 namespace TDC
 {
@@ -25,7 +26,7 @@ namespace TDC
 			_play->setParent(this);
 
 			_play->setOnClickCallback([&](){
-				this->publish<Msg::PlayMode>(Msg::PlayMode::Mode::ChoosePlayModeMenu, "");
+				_game->setChoosePlayMode();
 			});
 
 
@@ -38,8 +39,9 @@ namespace TDC
 				, 20);
 			_edit->setParent(this);
 
-			_edit->setOnClickCallback([&](){
-				this->publish<Msg::PlayMode>(Msg::PlayMode::Mode::CreateMapMenu, "");
+			_edit->setOnClickCallback([&]()
+			{
+				_game->setEditionMenuMode();
 			});
 
 		}

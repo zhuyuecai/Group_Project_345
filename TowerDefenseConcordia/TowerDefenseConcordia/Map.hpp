@@ -25,6 +25,8 @@ namespace TDC
 		std::size_t _start;
 		std::size_t _end;
 		std::size_t _cellRatio;
+		bool _editionMode;
+		std::string _savePath;
 
 		// return true if map configuations are correct
 		inline bool _valid() const { return (_width != INVALID && _height != INVALID && _start < _height && _end < _height); }
@@ -38,8 +40,6 @@ namespace TDC
 		Map(Map &&o) = delete;
 		Map &operator=(const Map &o) = delete;
 		Map &operator=(Map &&o) = delete;
-
-		inline void setCellSizeRatio(std::size_t r) { _cellRatio = r; }
 
 		// return cell ptr based on x/y coordinates. Return nullptr if invalid value.
 		Cell *getCell(std::size_t x, std::size_t y);
@@ -104,7 +104,17 @@ namespace TDC
 				, cereal::make_nvp("Array", _array)
 				);
 		}
+		virtual void update(const sf::Time &dt, sf::RenderWindow *window);
 
+		inline std::size_t getCellRatio() const { return _cellRatio; }
+	protected:
+		virtual void _resized()
+		{
+			auto w = _pixels.width;
+			auto h = _pixels.height;
+			_cellRatio = w / _width;
+			_cellRatio = h / _height < _cellRatio ? h / _height : _cellRatio;
+		}
 	private:
 		void _rankCell(int x, int y, int v)
 		{
