@@ -29,8 +29,8 @@ namespace TDC
 
 	void InGameScene::generate()
 	{
-		auto w = rand() % 100 + 10;
-		auto h = rand() % 100 + 10;
+		auto w = 10;
+		auto h = 10;
 		_map.config(w, h, rand() % (h - 1), rand() % (h - 1));
 		_map.generate(TDC::PathGenerationOption::Straight);
 		_critters.clear();

@@ -25,7 +25,6 @@ namespace TDC
 		CellType _type;
 		std::size_t _index;
 		std::size_t _next;
-		unsigned char _dir;
 
 		// private methods, only map can access them
 		inline void setNext(std::size_t n) { _next = n; }
