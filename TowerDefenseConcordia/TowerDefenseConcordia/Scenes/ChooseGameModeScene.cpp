@@ -17,8 +17,8 @@ namespace TDC
 		});
 
 		_randomMap = std::make_unique<TextButton>(
-			sf::Vector2u(50, 33)
-			, sf::Vector2u(50, 33)
+			sf::Vector2f(50, 33)
+			, sf::Vector2f(50, 33)
 			, "Random map"
 			, sf::Color::Blue
 			, sf::Color::Green
@@ -31,8 +31,8 @@ namespace TDC
 
 
 		_loadMap = std::make_unique<TextButton>(
-			sf::Vector2u(50, 66)
-			, sf::Vector2u(50, 33)
+			sf::Vector2f(50, 66)
+			, sf::Vector2f(50, 33)
 			, "Load map !\n(testMapBinary.bin only for the moment)"
 			, sf::Color::Red
 			, sf::Color::Yellow

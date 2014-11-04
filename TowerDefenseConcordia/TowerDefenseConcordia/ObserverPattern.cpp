@@ -33,21 +33,21 @@ namespace TDC
 	Publisher::~Publisher()
 	{}
 
-	void Publisher::addSubscriber(std::shared_ptr<Subscriber::Handle> handle)
+	void Publisher::addSubscriber(std::weak_ptr<Subscriber::Handle> handle)
 	{
 		for (auto &e : _subscribers)
 		{
-			if (e->ptr == handle->ptr)
+			if (e.lock()->ptr == handle.lock()->ptr)
 				return;
 		}
 		_subscribers.push_back(handle);
 	}
 
-	void Publisher::removeSubscriber(std::shared_ptr<Subscriber::Handle> handle)
+	void Publisher::removeSubscriber(std::weak_ptr<Subscriber::Handle> handle)
 	{
 		for (std::size_t i = 0; i < _subscribers.size(); ++i)
 		{
-			if (_subscribers[i]->ptr == handle->ptr)
+			if (_subscribers[i].lock()->ptr == handle.lock()->ptr)
 			{
 				std::swap(_subscribers[i], _subscribers.back());
 				_subscribers.pop_back();
@@ -60,7 +60,7 @@ namespace TDC
 	{
 		for (std::size_t i = 0; i < _subscribers.size(); ++i)
 		{
-			if (!_subscribers[i]->valid)
+			if (!_subscribers[i].lock() || !_subscribers[i].lock()->valid)
 			{
 				std::swap(_subscribers[i], _subscribers.back());
 				_subscribers.pop_back();

@@ -45,7 +45,7 @@ namespace TDC
 
 		Subscriber();
 		virtual ~Subscriber();
-		inline const std::shared_ptr<Handle> getHandle() const
+		inline const std::weak_ptr<Handle> getHandle() const
 		{
 			return _handle;
 		}
@@ -72,18 +72,24 @@ namespace TDC
 			for (unsigned int i = 0; i < _subscribers.size(); ++i)
 			{
 				auto &e = _subscribers[i];
-				e->ptr->receive(&tmp);
+				if (e.expired() || e.lock()->ptr == nullptr || !e.lock()->valid)
+				{
+					std::swap(_subscribers[i], _subscribers.back());
+					_subscribers.pop_back();
+					continue;
+				}
+				e.lock()->ptr->receive(&tmp);
 			}
 		}
 
 		// Add a subscriber
-		void addSubscriber(std::shared_ptr<Subscriber::Handle> handle);
+		void addSubscriber(std::weak_ptr<Subscriber::Handle> handle);
 		// Remove a subscriber
-		void removeSubscriber(std::shared_ptr<Subscriber::Handle> handle);
+		void removeSubscriber(std::weak_ptr<Subscriber::Handle> handle);
 		// Remove invalid subscribers
 		void removeEmptySubscribers();
 	private:
-		std::vector<std::shared_ptr<Subscriber::Handle>> _subscribers;
+		std::vector<std::weak_ptr<Subscriber::Handle>> _subscribers;
 	};
 
 	// Class where the object is publisher and subscriber at the same time

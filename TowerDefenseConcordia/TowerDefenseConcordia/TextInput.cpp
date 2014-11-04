@@ -2,8 +2,8 @@
 
 namespace TDC
 {
-	TextInput::TextInput(sf::Vector2u position
-		, sf::Vector2u dimensions
+	TextInput::TextInput(sf::Vector2f position
+		, sf::Vector2f dimensions
 		, const std::string &text
 		, const sf::Color &textColor
 		, const sf::Color &bgColor

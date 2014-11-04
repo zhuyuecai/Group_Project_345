@@ -24,8 +24,8 @@ namespace TDC
 		});
 
 		_mapName = std::make_unique<TextInput>(
-			sf::Vector2u(50, 10)
-			, sf::Vector2u(50, 10)
+			sf::Vector2f(50, 10)
+			, sf::Vector2f(50, 10)
 			, "MapName"
 			, sf::Color::Red
 			, sf::Color::Yellow
@@ -33,8 +33,8 @@ namespace TDC
 		_mapName->setParent(this);
 
 		_mapWidth = std::make_unique<NumberInput>(
-			sf::Vector2u(50, 25)
-			, sf::Vector2u(50, 10)
+			sf::Vector2f(50, 25)
+			, sf::Vector2f(50, 10)
 			, sf::Color::Blue
 			, sf::Color::Magenta
 			, 20);
@@ -42,16 +42,16 @@ namespace TDC
 
 
 		_mapHeight = std::make_unique<NumberInput>(
-			sf::Vector2u(50, 40)
-			, sf::Vector2u(50, 10)
+			sf::Vector2f(50, 40)
+			, sf::Vector2f(50, 10)
 			, sf::Color::Blue
 			, sf::Color::Magenta
 			, 20);
 		_mapHeight->setParent(this);
 
 		_okay = std::make_unique<TextButton>(
-			sf::Vector2u(50, 55)
-			, sf::Vector2u(50, 10)
+			sf::Vector2f(50, 55)
+			, sf::Vector2f(50, 10)
 			, "Okay"
 			, sf::Color::Green
 			, sf::Color::Black

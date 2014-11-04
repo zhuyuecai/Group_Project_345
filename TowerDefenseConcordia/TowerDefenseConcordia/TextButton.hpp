@@ -13,8 +13,8 @@ namespace TDC
 	class TextButton : public RectArea
 	{
 	public:
-		TextButton(sf::Vector2u position = sf::Vector2u(0, 0) /*percent*/
-			, sf::Vector2u dimensions = sf::Vector2u(0, 0) /*percent*/
+		TextButton(sf::Vector2f position = sf::Vector2f(0, 0) /*percent*/
+			, sf::Vector2f dimensions = sf::Vector2f(0, 0) /*percent*/
 			, const std::string &text = "Text"
 			, const sf::Color &textColor = sf::Color(255, 255, 255, 255)
 			, const sf::Color &bgColor = sf::Color(122, 122, 122, 255)

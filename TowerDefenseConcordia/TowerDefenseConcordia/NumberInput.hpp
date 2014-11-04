@@ -7,8 +7,8 @@ namespace TDC
 	class NumberInput : public TextInput
 	{
 	public:
-		NumberInput(sf::Vector2u position = sf::Vector2u(0, 0) /*percent*/
-			, sf::Vector2u dimensions = sf::Vector2u(0, 0) /*percent*/
+		NumberInput(sf::Vector2f position = sf::Vector2f(0, 0) /*percent*/
+			, sf::Vector2f dimensions = sf::Vector2f(0, 0) /*percent*/
 			, const sf::Color &textColor = sf::Color(255, 255, 255, 255)
 			, const sf::Color &bgColor = sf::Color(122, 122, 122, 255)
 			, std::size_t fontSize = 20);

@@ -5,8 +5,8 @@ namespace TDC
 	std::unique_ptr<sf::Font> TextButton::_font = nullptr;
 	std::once_flag TextButton::_flag;
 
-	TextButton::TextButton(sf::Vector2u position
-		, sf::Vector2u dimensions
+	TextButton::TextButton(sf::Vector2f position
+		, sf::Vector2f dimensions
 		, const std::string &text
 		, const sf::Color &textColor
 		, const sf::Color &bgColor

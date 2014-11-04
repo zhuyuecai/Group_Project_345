@@ -11,8 +11,8 @@ namespace TDC
 	class RectArea : public PubSub
 	{
 	public:
-		RectArea(sf::Vector2u position = sf::Vector2u(0, 0) /*percent*/
-			, sf::Vector2u dimensions = sf::Vector2u(100, 100) /*percent*/)
+		RectArea(sf::Vector2f position = sf::Vector2f(0, 0) /*percent*/
+			, sf::Vector2f dimensions = sf::Vector2f(100, 100) /*percent*/)
 			: _percent(Rect(position.x, position.y, dimensions.x, dimensions.y))
 			, _hasParent(false)
 			, _root(false)
@@ -40,14 +40,14 @@ namespace TDC
 			_updateBBox();
 		}
 
-		inline void setPosition(const sf::Vector2u &position)
+		inline void setPosition(const sf::Vector2f &position)
 		{
 			_percent.left = position.x;
 			_percent.top = position.y;
 			_updateBBox();
 		}
 
-		inline void setDimension(const sf::Vector2u &dimension)
+		inline void setDimension(const sf::Vector2f &dimension)
 		{
 			_percent.width = dimension.x;
 			_percent.height = dimension.y;
