@@ -33,30 +33,6 @@ namespace TDC
 			{}
 		};
 
-		// Playmode message used to change play modes / menus
-		struct PlayMode : Message < PlayMode >
-		{
-			enum Mode
-			{
-				MainMenu = 0,
-				LoadMapMenu,
-				CreateMapMenu,
-				Play,
-				ChoosePlayModeMenu,
-				CreateMap
-			};
-			Mode mode;
-			std::string argument;
-
-			PlayMode(Mode _mode, std::string _argument = "")
-				: mode(_mode)
-				, argument(_argument)
-			{}
-
-			PlayMode() = delete;
-
-		};
-
 		struct BoundingUpdate : Message < BoundingUpdate >
 		{
 			BoundingUpdate() = delete;

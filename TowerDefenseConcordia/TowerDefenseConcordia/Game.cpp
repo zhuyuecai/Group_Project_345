@@ -59,8 +59,8 @@ namespace TDC
 				_mode->removeSubscriber(getHandle());
 				_mode.release();
 			}
-			_mode->setGamePtr(this);
 			_mode = std::make_unique<MapCreationMenuBehaviour>();
+			_mode->setGamePtr(this);
 			addSubscriber(_mode->getHandle());
 			_mode->addSubscriber(getHandle());
 			_mode->init();
@@ -76,8 +76,8 @@ namespace TDC
 				_mode->removeSubscriber(getHandle());
 				_mode.release();
 			}
-			_mode->setGamePtr(this);
 			_mode = std::make_unique<MapCreationMenuBehaviour>();
+			_mode->setGamePtr(this);
 			addSubscriber(_mode->getHandle());
 			_mode->addSubscriber(getHandle());
 			_mode->init();
