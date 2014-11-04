@@ -14,7 +14,7 @@ namespace TDC
 		_shape.setOutlineColor(textColor);
 	}
 
-	void TextInput::_event(const sf::Event &event)
+	bool TextInput::_event(const sf::Event &event)
 	{
 		if (event.type == sf::Event::MouseButtonPressed)
 		{
@@ -47,5 +47,6 @@ namespace TDC
 			}
 			_resized();
 		}
+		return true;
 	}
 }

@@ -23,8 +23,6 @@ namespace TDC
 	protected:
 		virtual void _update(const sf::Time &dt, sf::RenderWindow *window);
 		virtual void _onClick();
-		virtual void _event(const sf::Event &event);
-		virtual void _init();
 		virtual void _resized();
 
 		sf::RectangleShape _shape;

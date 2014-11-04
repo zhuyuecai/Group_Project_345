@@ -22,7 +22,7 @@ namespace TDC
 		virtual ~NumberInput(){}
 		inline void setRange(int min, int max) { _min = min; _max = max; }
 	protected:
-		virtual void _event(const sf::Event &event);
+		virtual bool _event(const sf::Event &event);
 		int _min;
 		int _max;
 	};

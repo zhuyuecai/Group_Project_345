@@ -42,14 +42,6 @@ namespace TDC
 			_onClickCallback();
 	}
 
-	void TextButton::_event(const sf::Event &event)
-	{
-	}
-
-	void TextButton::_init()
-	{
-	}
-
 	void TextButton::_resized()
 	{
 		_shape.setPosition({ _pixels.left, _pixels.top });

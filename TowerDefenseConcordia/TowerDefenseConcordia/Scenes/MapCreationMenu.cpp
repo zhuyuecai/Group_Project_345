@@ -12,17 +12,6 @@ namespace TDC
 			this->setRootArea(m->size.x, m->size.y);
 		});
 
-		subcribeToMessage<Msg::Event>([this](const IMessage *msg)
-		{
-			auto *m = static_cast<const Msg::Event*>(msg);
-			publish<Msg::Event>(*static_cast<const Msg::Event*>(msg));
-
-			if (m->event.key.code == sf::Keyboard::Escape)
-			{
-				_game->setMainMenu();
-			}
-		});
-
 		_mapName = std::make_unique<TextInput>(
 			sf::Vector2f(50, 10)
 			, sf::Vector2f(50, 10)
@@ -75,4 +64,14 @@ namespace TDC
 
 	MapCreationMenuBehaviour::~MapCreationMenuBehaviour()
 	{}
+
+	bool MapCreationMenuBehaviour::_event(const sf::Event &event)
+	{
+		if (event.key.code == sf::Keyboard::Escape)
+		{
+			_game->setMainMenu();
+			return false; // this will be destroyed
+		}
+		return true;
+	}
 }

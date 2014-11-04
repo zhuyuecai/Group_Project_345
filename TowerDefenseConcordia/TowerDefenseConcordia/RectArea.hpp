@@ -96,7 +96,7 @@ namespace TDC
 		virtual void _update(const sf::Time &dt, sf::RenderWindow *window){};
 		virtual void _onClick(){};
 		virtual void _onHover(){};
-		virtual void _event(const sf::Event &event){};
+		virtual bool _event(const sf::Event &event){ return true; };
 		virtual void _init(){};
 		virtual void _resized(){};
 
@@ -172,8 +172,8 @@ private:
 					_onHoverCallback();
 			}
 
-			_event(m->event);
-			publish<Msg::Event>(m->event);
+			if (_event(m->event))
+				publish<Msg::Event>(m->event);
 		});
 
 		_init();

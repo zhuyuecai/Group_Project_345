@@ -14,7 +14,7 @@ namespace TDC
 		_text.setString(std::to_string(_min));
 	}
 
-	void NumberInput::_event(const sf::Event &event)
+	bool NumberInput::_event(const sf::Event &event)
 	{
 		auto copy = _text.getString();
 		TextInput::_event(event);
@@ -27,7 +27,7 @@ namespace TDC
 			}
 			_text.setString(str);
 			if (str.size() == 0)
-				return;
+				return true;
 			_resized();
 		}
 		if (!_focus)
@@ -41,5 +41,6 @@ namespace TDC
 				_text.setString(std::to_string(_max));
 			_resized();
 		}
+		return true;
 	}
 }

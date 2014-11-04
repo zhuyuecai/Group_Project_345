@@ -16,7 +16,7 @@ namespace TDC
 		inline std::string getValue() const { return _text.getString(); }
 		virtual ~TextInput(){}
 	protected:
-		virtual void _event(const sf::Event &event);
+		virtual bool _event(const sf::Event &event);
 
 		bool _focus;
 	};
