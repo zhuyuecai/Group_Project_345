@@ -1,3 +1,4 @@
+#pragma once 
 
 #include "../WindowManager.hpp"
 #include "../Map.hpp"
@@ -11,21 +12,18 @@
 
 namespace TDC
 {
-	class DemoMap : public IModeBehaviour
+	class EditMapScene : public Scene
 	{
 	public:
-		DemoMap();
-		virtual ~DemoMap();
+		EditMapScene()
+		{}
+
+		virtual ~EditMapScene()
+		{}
+
 		virtual void init();
-		void generate();
-		void load(const std::string &path);
 		virtual void update(const sf::Time &dt, sf::RenderWindow *window);
 	private:
-		void _events(const sf::Event &event);
-		void computeCellSizeRatio(sf::Vector2u size);
-		Map _map;
-		std::size_t _cellSizeRatio;
-		sf::Font _arial;
-		std::vector < Critter > _critters;
+		std::vector < CellType > _mapData;
 	};
 }

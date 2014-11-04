@@ -131,6 +131,7 @@ namespace TDC
 					}
 			}
 		}
+		generatePath();
 		return true;
 	}
 
@@ -243,5 +244,43 @@ namespace TDC
 		}
 		file.close();
 		return true;
+	}
+
+
+	void Map::generatePath()
+	{
+		for (auto &e : _array)
+			e._rank = INVALID;
+		_rankCell(_width - 1, _end, 0);
+		auto d = _start * _width;
+		auto *c = getCell(d);
+		while (true)
+		{
+			if (c->_rank == 0)
+				return;
+			auto nextX = getCell(d + 1);
+			auto nextY = getCell(d + _width);
+			auto prevY = getCell(d - _width);
+			if (nextX && nextX->_rank == c->_rank - 1)
+			{
+				c->setNext(nextX->_index);
+				c = nextX;
+			}
+			else if (nextY && nextY->_rank == c->_rank - 1)
+			{
+				c->setNext(nextY->_index);
+				c = nextY;
+			}
+			else if (prevY && prevY->_rank == c->_rank - 1)
+			{
+				c->setNext(prevY->_index);
+				c = prevY;
+			}
+			else
+			{
+				std::cerr << "error !!!";
+			}
+			d = c->_index;
+		}
 	}
 }

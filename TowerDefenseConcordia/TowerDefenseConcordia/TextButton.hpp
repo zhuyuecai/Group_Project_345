@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IButton.hpp"
+#include "RectArea.hpp"
 #include <sfml/Graphics/RectangleShape.hpp>
 #include <sfml/Graphics/Text.hpp>
 #include <sfml/Graphics/Font.hpp>

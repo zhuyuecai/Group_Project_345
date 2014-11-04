@@ -1,8 +1,8 @@
-#include "ChooseGameModeBehaviour.hpp"
+#include "ChooseGameModeScene.hpp"
 
 namespace TDC
 {
-	void ChooseGameModeBehaviour::init()
+	void ChooseGameModeScene::init()
 	{
 
 		subcribeToMessage<Msg::Resize>([this](const IMessage *msg)
@@ -45,12 +45,12 @@ namespace TDC
 
 	}
 
-	void ChooseGameModeBehaviour::update(const sf::Time &dt, sf::RenderWindow *renderWindow)
+	void ChooseGameModeScene::update(const sf::Time &dt, sf::RenderWindow *renderWindow)
 	{
 		_loadMap->update(dt, renderWindow);
 		_randomMap->update(dt, renderWindow);
 	}
 
-	ChooseGameModeBehaviour::~ChooseGameModeBehaviour()
+	ChooseGameModeScene::~ChooseGameModeScene()
 	{}
 }

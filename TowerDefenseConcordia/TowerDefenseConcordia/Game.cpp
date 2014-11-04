@@ -1,5 +1,5 @@
 #include "Game.hpp"
-#include "Modes/MapCreationMenu.hpp"
+#include "Scenes/MapCreationMenu.hpp"
 
 namespace TDC
 {
@@ -17,17 +17,17 @@ namespace TDC
 				_mode->removeSubscriber(getHandle());
 				_mode.release();
 			}
-			_mode = std::make_unique<DemoMap>();
+			_mode = std::make_unique<InGameScene>();
 			addSubscriber(_mode->getHandle());
 			_mode->addSubscriber(getHandle());
 			_mode->init();
 			if (mapFilePath == "__RANDOM__")
 			{
-				static_cast<DemoMap*>(_mode.get())->generate();
+				static_cast<InGameScene*>(_mode.get())->generate();
 			}
 			else
 			{
-				static_cast<DemoMap*>(_mode.get())->load(mapFilePath);
+				static_cast<InGameScene*>(_mode.get())->load(mapFilePath);
 			}
 			// we publish the size of the window to resize buttons
 			publish<Msg::Resize>(_window.getSize());
@@ -41,7 +41,7 @@ namespace TDC
 				_mode->removeSubscriber(getHandle());
 				_mode.release();
 			}
-			_mode = std::make_unique<ChooseGameModeBehaviour>();
+			_mode = std::make_unique<ChooseGameModeScene>();
 			addSubscriber(_mode->getHandle());
 			_mode->addSubscriber(getHandle());
 			_mode->init();

@@ -2,19 +2,19 @@
 
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
-#include "../IButton.hpp"
+#include "../RectArea.hpp"
 
 namespace TDC
 {
-	class IModeBehaviour : public RectArea
+	class Scene : public RectArea
 	{
 	public:
-		IModeBehaviour()
+		Scene()
 			: RectArea()
 		{}
 		virtual void init() = 0;
 		virtual void update(const sf::Time &dt, sf::RenderWindow *renderWindow) = 0;
-		virtual ~IModeBehaviour()
+		virtual ~Scene()
 		{}
 	};
 }

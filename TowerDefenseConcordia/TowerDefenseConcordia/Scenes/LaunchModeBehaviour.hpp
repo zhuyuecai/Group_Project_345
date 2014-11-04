@@ -7,14 +7,14 @@
 
 namespace TDC
 {
-	class ChooseGameModeBehaviour : public IModeBehaviour
+	class LaunchModeBehaviour : public Scene
 	{
 	public:
 		virtual void init();
 		virtual void update(const sf::Time &dt, sf::RenderWindow *renderWindow);
-		virtual ~ChooseGameModeBehaviour();
+		virtual ~LaunchModeBehaviour();
 	private:
-		std::unique_ptr<TextButton> _randomMap;
-		std::unique_ptr<TextButton> _loadMap;
+		std::unique_ptr<TextButton> _play;
+		std::unique_ptr<TextButton> _edit;
 	};
 }

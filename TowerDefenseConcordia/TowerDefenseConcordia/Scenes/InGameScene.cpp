@@ -1,14 +1,14 @@
-#include "DemoMapBehaviour.hpp"
+#include "InGameScene.hpp"
 
 namespace TDC
 {
-	DemoMap::DemoMap()
+	InGameScene::InGameScene()
 	{}
 
-	DemoMap::~DemoMap()
+	InGameScene::~InGameScene()
 	{}
 
-	void DemoMap::init()
+	void InGameScene::init()
 	{
 		subcribeToMessage<Msg::Resize>([this](const IMessage *msg)
 		{
@@ -27,7 +27,7 @@ namespace TDC
 		_arial.loadFromFile("../assets/arial.ttf");
 	}
 
-	void DemoMap::generate()
+	void InGameScene::generate()
 	{
 		auto w = rand() % 100 + 10;
 		auto h = rand() % 100 + 10;
@@ -36,7 +36,7 @@ namespace TDC
 		_critters.clear();
 	}
 
-	void DemoMap::load(const std::string &path)
+	void InGameScene::load(const std::string &path)
 	{
 		if (!_map.loadFromBinary(path))
 			generate();
@@ -45,7 +45,7 @@ namespace TDC
 		_critters.clear();
 	}
 
-	void DemoMap::update(const sf::Time &dt, sf::RenderWindow *window)
+	void InGameScene::update(const sf::Time &dt, sf::RenderWindow *window)
 	{
 		auto &mapArray = _map.getArray();
 		auto w = _map.getWidth();
@@ -119,7 +119,7 @@ Key ESC to go back to menu.", _arial, 20);
 		window->draw(text);
 	}
 
-	void DemoMap::_events(const sf::Event &event)
+	void InGameScene::_events(const sf::Event &event)
 	{
 		publish<Msg::Event>(event);
 
@@ -148,7 +148,7 @@ Key ESC to go back to menu.", _arial, 20);
 		}
 	}
 
-	void DemoMap::computeCellSizeRatio(sf::Vector2u size)
+	void InGameScene::computeCellSizeRatio(sf::Vector2u size)
 	{
 		auto w = _map.getWidth();
 		auto h = _map.getHeight();

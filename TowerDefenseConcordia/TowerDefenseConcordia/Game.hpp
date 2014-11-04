@@ -7,9 +7,9 @@
 #include <SFML/Graphics/Text.hpp>
 #include "MapMessages.hpp"
 #include "Critter.hpp"
-#include "Modes/LaunchModeBehaviour.hpp"
-#include "Modes/ChooseGameModeBehaviour.hpp"
-#include "Modes/DemoMapBehaviour.hpp"
+#include "Scenes/LaunchModeBehaviour.hpp"
+#include "Scenes/ChooseGameModeScene.hpp"
+#include "Scenes/InGameScene.hpp"
 #include <memory>
 
 namespace TDC
@@ -36,6 +36,6 @@ namespace TDC
 		virtual void _updateEvents(const sf::Event &event);
 		virtual void _update(const sf::Time dt);
 	private:
-		std::unique_ptr < IModeBehaviour > _mode;
+		std::unique_ptr < Scene > _mode;
 	};
 }

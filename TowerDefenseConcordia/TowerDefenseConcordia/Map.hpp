@@ -5,7 +5,7 @@
 #include <cereal/types/vector.hpp>
 
 #include "ObserverPattern.hpp"
-#include "IButton.hpp"
+#include "RectArea.hpp"
 
 namespace TDC
 {
@@ -68,6 +68,8 @@ namespace TDC
 		// reset map
 		void reset();
 
+		void generatePath();
+
 		// get map array
 		inline const std::vector<Cell> &getArray() const
 		{
@@ -101,6 +103,34 @@ namespace TDC
 				, cereal::make_nvp("End", _end)
 				, cereal::make_nvp("Array", _array)
 				);
+		}
+
+	private:
+		void _rankCell(int x, int y, int v)
+		{
+			auto *cell = getCell(x, y);
+			if (!cell)
+				return;
+			if (cell->_type == CellType::Wall)
+			{
+				return;
+			}
+			if (cell->_rank == INVALID)
+			{
+				cell->_rank = v;
+			}
+			else
+			{
+				if (cell->_rank > v)
+					cell->_rank = v;
+				return;
+			}
+			if (y - 1 >= 0)
+				_rankCell(x, y - 1, v + 1);
+			if (y + 1 < _height)
+				_rankCell(x, y + 1, v + 1);
+			if (x - 1 >= 0)
+				_rankCell(x - 1, y, v + 1);
 		}
 	};
 }

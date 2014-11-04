@@ -8,7 +8,7 @@
 
 namespace TDC
 {
-	class MapCreationMenuBehaviour : public IModeBehaviour
+	class MapCreationMenuBehaviour : public Scene
 	{
 	public:
 		virtual void init();
