@@ -34,6 +34,7 @@ namespace TDC
 		_map.config(w, h, rand() % (h - 1), rand() % (h - 1));
 		_map.generate(TDC::PathGenerationOption::Straight);
 		_critters.clear();
+		this->setRootArea(this->_parentBox.width, this->_parentBox.height);
 	}
 
 	void InGameScene::load(const std::string &path)
@@ -41,7 +42,7 @@ namespace TDC
 		if (!_map.loadFromBinary(path))
 			generate();
 		_map.setPosition({ 0, 0 });
-		_map.setDimension({ 80, 80 });
+		_map.setDimension({ 80, 100 });
 		_critters.clear();
 	}
 
