@@ -29,13 +29,14 @@ namespace TDC
 		_randomMap->setOnClickCallback([&]()
 		{
 			_game->setPlayMode("__RANDOM__");
+			return false;
 		});
 
 
 		_loadMap = std::make_unique<TextButton>(
 			sf::Vector2f(50, 66)
 			, sf::Vector2f(50, 33)
-			, "Load map !\n(TestMap.bin only for the moment)"
+			, "Load map"
 			, sf::Color::Red
 			, sf::Color::Yellow
 			, 20);
@@ -43,7 +44,9 @@ namespace TDC
 
 		_loadMap->setOnClickCallback([&]()
 		{
-			_game->setPlayMode("../TestMap.bin");
+			_game->setLoadMenu();
+			return false;
+			//			_game->setPlayMode("../TestMap.bin");
 		});
 
 	}

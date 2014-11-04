@@ -22,7 +22,6 @@ namespace TDC
 		virtual ~TextButton(){}
 	protected:
 		virtual void _update(const sf::Time &dt, sf::RenderWindow *window);
-		virtual void _onClick();
 		virtual void _resized();
 
 		sf::RectangleShape _shape;

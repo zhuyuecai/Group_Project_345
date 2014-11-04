@@ -27,13 +27,14 @@ namespace TDC
 
 			_play->setOnClickCallback([&](){
 				_game->setChoosePlayMode();
+				return false;
 			});
 
 
 			_edit = std::make_unique<TextButton>(
 				sf::Vector2f(50, 66)
 				, sf::Vector2f(50, 33)
-				, "Edit ! (Coming soon)"
+				, "Edit !"
 				, sf::Color::Red
 				, sf::Color::Yellow
 				, 20);
@@ -42,6 +43,7 @@ namespace TDC
 			_edit->setOnClickCallback([&]()
 			{
 				_game->setEditionMenuMode();
+				return false;
 			});
 
 		}

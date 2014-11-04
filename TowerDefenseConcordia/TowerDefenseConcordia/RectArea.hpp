@@ -65,7 +65,7 @@ namespace TDC
 			return _pixels.contains(x, y);
 		}
 
-		inline void setOnClickCallback(const std::function<void()> &fn)
+		inline void setOnClickCallback(const std::function<bool()> &fn)
 		{
 			_onClickCallback = fn;
 		}
@@ -94,7 +94,7 @@ namespace TDC
 
 	protected:
 		virtual void _update(const sf::Time &dt, sf::RenderWindow *window){};
-		virtual void _onClick(){};
+		virtual bool _onClick(){ return true; };
 		virtual void _onHover(){};
 		virtual bool _event(const sf::Event &event){ return true; };
 		virtual void _init(){};
@@ -136,7 +136,7 @@ namespace TDC
 			}
 		}
 
-		std::function<void()> _onClickCallback;
+		std::function<bool()> _onClickCallback;
 		std::function<void()> _onHoverCallback;
 		bool _hasParent;
 		Rect _pixels;
@@ -160,9 +160,11 @@ private:
 			if (m->event.type == sf::Event::MouseButtonReleased
 				&& isPointIn(m->event.mouseButton.x, m->event.mouseButton.y))
 			{
-				_onClick();
+				if (!_onClick())
+					return;
 				if (_onClickCallback)
-					_onClickCallback();
+					if (!_onClickCallback())
+						return;
 			}
 			else if (m->event.type == sf::Event::MouseMoved
 				&& isPointIn(m->event.mouseMove.x, m->event.mouseMove.y))

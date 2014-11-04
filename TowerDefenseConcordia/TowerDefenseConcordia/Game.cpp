@@ -1,6 +1,7 @@
 #include "Game.hpp"
 #include "Scenes/MapCreationMenu.hpp"
 #include "Scenes/EditMapScene.hpp"
+#include "Scenes/LoadMapMenu.hpp"
 
 namespace TDC
 {
@@ -94,6 +95,22 @@ namespace TDC
 				_mode->removeSubscriber(getHandle());
 			}
 			_mode = std::make_unique<LaunchModeBehaviour>();
+			_mode->setGamePtr(this);
+			addSubscriber(_mode->getHandle());
+			_mode->addSubscriber(getHandle());
+			_mode->init();
+			// we publish the size of the window to resize buttons
+			publish<Msg::Resize>(_window.getSize());
+		}
+
+		void Game::setLoadMenu()
+		{
+			if (_mode)
+			{
+				removeSubscriber(_mode->getHandle());
+				_mode->removeSubscriber(getHandle());
+			}
+			_mode = std::make_unique<LoadMapMenu>();
 			_mode->setGamePtr(this);
 			addSubscriber(_mode->getHandle());
 			_mode->addSubscriber(getHandle());

@@ -36,11 +36,6 @@ namespace TDC
 			window->draw(_text);
 		}
 	}
-	void TextButton::_onClick()
-	{
-		if (_onClickCallback)
-			_onClickCallback();
-	}
 
 	void TextButton::_resized()
 	{

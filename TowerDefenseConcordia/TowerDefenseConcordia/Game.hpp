@@ -29,7 +29,9 @@ namespace TDC
 		// Map creation mode
 		void setMapCreationMode(const std::string &mapFilePath, std::size_t width, std::size_t height);
 		// Main menu mode
-		void setMainMenu();	
+		void setMainMenu();
+		// Load menu
+		void setLoadMenu();
 		// Initialization
 		virtual void init();
 	protected:
