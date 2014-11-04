@@ -3,6 +3,8 @@
 #include "MapMessages.hpp"
 #include "Critter.hpp"
 #include "SFML/Graphics/RectangleShape.hpp"
+#include <SFML/Window/Event.hpp>
+#include <queue>
 
 namespace TDC
 {
@@ -11,6 +13,7 @@ namespace TDC
 		, _height(INVALID)
 		, _start(0)
 		, _end(0)
+		, _editionMode(false)
 	{
 		setCentered(false);
 	}
@@ -73,9 +76,9 @@ namespace TDC
 
 	void Map::setEnd(std::size_t y)
 	{
-		_array[_end * _width + _width]._type = CellType::Wall;
+		_array[_end * _width + _width - 1]._type = CellType::Wall;
 		_end = y;
-		_array[_end * _width + _width]._type = CellType::Path;
+		_array[_end * _width + _width - 1]._type = CellType::Path;
 	}
 
 	bool Map::generate(PathGenerationOption option)
@@ -136,7 +139,7 @@ namespace TDC
 					}
 			}
 		}
-		generatePath();
+//		generatePath();
 		return true;
 	}
 
@@ -255,38 +258,73 @@ namespace TDC
 	void Map::generatePath()
 	{
 		for (auto &e : _array)
-			e._rank = INVALID;
-		_rankCell(_width - 1, _end, 0);
-		auto d = _start * _width;
-		auto *c = getCell(d);
-		while (true)
+			e._next = INVALID;
+
+		std::queue<std::size_t> frontier;
+		frontier.push(_start * _width);
+
+		std::unordered_map<std::size_t, std::size_t> came_from;
+		auto start = _start * _width;
+		auto end = _end * _width + _width - 1;
+		came_from[start] = start;
+
+		while (!frontier.empty())
 		{
-			if (c->_rank == 0)
-				return;
-			auto nextX = getCell(d + 1);
-			auto nextY = getCell(d + _width);
-			auto prevY = getCell(d - _width);
-			if (nextX && nextX->_rank == c->_rank - 1)
+			auto current = frontier.front();
+			frontier.pop();
+			auto n = getNeighbours(current, CellType::Path);
+			for (auto &next : n)
 			{
-				c->setNext(nextX->_index);
-				c = nextX;
+				if (!came_from.count(next))
+				{
+					frontier.push(next);
+					came_from[next] = current;
+				}
 			}
-			else if (nextY && nextY->_rank == c->_rank - 1)
-			{
-				c->setNext(nextY->_index);
-				c = nextY;
-			}
-			else if (prevY && prevY->_rank == c->_rank - 1)
-			{
-				c->setNext(prevY->_index);
-				c = prevY;
-			}
-			else
-			{
-				std::cerr << "error !!!";
-			}
-			d = c->_index;
 		}
+		if (came_from.count(end) > 0)
+		{
+			auto t = end;
+			while (t != start)
+			{
+				_array[came_from[t]]._next = t;
+				t = came_from[t];
+			}
+		}
+
+
+
+		//_rankCell(_width - 1, _end, 0);
+		//auto d = _start * _width;
+		//auto *c = getCell(d);
+		//while (true)
+		//{
+		//	if (c->_rank == 0)
+		//		return;
+		//	auto nextX = getCell(d + 1);
+		//	auto nextY = getCell(d + _width);
+		//	auto prevY = getCell(d - _width);
+		//	if (nextX && nextX->_rank == c->_rank - 1)
+		//	{
+		//		c->setNext(nextX->_index);
+		//		c = nextX;
+		//	}
+		//	else if (nextY && nextY->_rank == c->_rank - 1)
+		//	{
+		//		c->setNext(nextY->_index);
+		//		c = nextY;
+		//	}
+		//	else if (prevY && prevY->_rank == c->_rank - 1)
+		//	{
+		//		c->setNext(prevY->_index);
+		//		c = prevY;
+		//	}
+		//	else
+		//	{
+		//		return;
+		//	}
+		//	d = c->_index;
+		//}
 	}
 
 	void Map::update(const sf::Time &dt, sf::RenderWindow *window)
@@ -302,6 +340,42 @@ namespace TDC
 			{
 				rectangle.setPosition((float)((i % _width) * _cellRatio), (float)((i / _width) * _cellRatio));
 				window->draw(rectangle);
+			}
+		}
+	}
+
+	bool Map::_event(const sf::Event &event)
+	{
+		if (_editionMode)
+		{
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
+				auto x = int(event.mouseButton.x - _pixels.left) / _cellRatio;
+				auto y = int(event.mouseButton.y - _pixels.top) / _cellRatio;
+				auto cell = getCell(x, y);
+				if (!cell)
+					return true;
+				if (event.mouseButton.button == sf::Mouse::Button::Left)
+				{
+					if (x == 0)
+						setStart(y);
+					else if (x == _width - 1)
+						setEnd(y);
+					else
+						cell->setType(CellType::Path);
+				}
+				else if (event.mouseButton.button == sf::Mouse::Button::Right)
+				{
+					if (x == 0 && _start == y)
+					{
+						return true;
+					}
+					if (x == _width - 1 && _end == y)
+					{
+						return true;
+					}
+					cell->setType(CellType::Wall);
+				}
 			}
 		}
 	}

@@ -16,6 +16,15 @@ namespace TDC
 		, None = 1
 	};
 
+	enum Dir : unsigned char
+	{
+		NONE = 0
+		, TOP
+		, BOTTOM
+		, LEFT
+		, RIGHT
+	};
+
 	class Map : public RectArea
 	{
 	private:
@@ -26,14 +35,14 @@ namespace TDC
 		std::size_t _end;
 		std::size_t _cellRatio;
 		bool _editionMode;
-		std::string _savePath;
 
 		// return true if map configuations are correct
 		inline bool _valid() const { return (_width != INVALID && _height != INVALID && _start < _height && _end < _height); }
-
 	public:
 		Map(); // ctor
 		~Map(); // dtor
+
+		inline void setInEditionMode(bool tof) { _editionMode = tof; }
 
 		// Copy operators are canceled
 		Map(const Map &o) = delete;
@@ -86,6 +95,33 @@ namespace TDC
 			return _height;
 		}
 
+		inline const std::vector<std::size_t>getNeighbours(std::size_t cell, CellType type)
+		{
+			std::vector<std::size_t> n;
+			auto x = cell % _width;
+			auto y = cell / _width;
+			for (auto i = -1; i < 2; ++i) // x
+			{
+				for (auto j = -1; j < 2; ++j) // y
+				{
+					auto nx = x + i;
+					auto ny = y + j;
+
+					if (i == 0 && j == 0)
+						continue;
+					if (i == 0 || j == 0)
+					{
+						auto c = getCell(nx, ny);
+						if (c && c->_type == type)
+						{
+							n.push_back(c->_index);
+						}
+					}
+				}
+			}
+			return n;
+		}
+
 		bool saveToJson(const std::string &fileName) const; // Used to debug
 		bool saveToBinary(const std::string &fileName) const; // Used at release time
 		bool loadFromJson(const std::string &filename);
@@ -115,32 +151,8 @@ namespace TDC
 			_cellRatio = w / _width;
 			_cellRatio = h / _height < _cellRatio ? h / _height : _cellRatio;
 		}
+
+		virtual bool _event(const sf::Event &event);
 	private:
-		void _rankCell(int x, int y, int v)
-		{
-			auto *cell = getCell(x, y);
-			if (!cell)
-				return;
-			if (cell->_type == CellType::Wall)
-			{
-				return;
-			}
-			if (cell->_rank == INVALID)
-			{
-				cell->_rank = v;
-			}
-			else
-			{
-				if (cell->_rank > v)
-					cell->_rank = v;
-				return;
-			}
-			if (y - 1 >= 0)
-				_rankCell(x, y - 1, v + 1);
-			if (y + 1 < _height)
-				_rankCell(x, y + 1, v + 1);
-			if (x - 1 >= 0)
-				_rankCell(x - 1, y, v + 1);
-		}
 	};
 }

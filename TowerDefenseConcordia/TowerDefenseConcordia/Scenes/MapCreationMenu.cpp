@@ -15,7 +15,7 @@ namespace TDC
 		_mapName = std::make_unique<TextInput>(
 			sf::Vector2f(50, 10)
 			, sf::Vector2f(50, 10)
-			, "MapName"
+			, "TestMap"
 			, sf::Color::Red
 			, sf::Color::Yellow
 			, 20);

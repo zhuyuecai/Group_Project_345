@@ -13,7 +13,7 @@ namespace TDC
 		Scene()
 			: RectArea()
 		{}
-		virtual void init() = 0;
+		virtual void init(){};
 		virtual void update(const sf::Time &dt, sf::RenderWindow *renderWindow) = 0;
 		virtual ~Scene()
 		{}

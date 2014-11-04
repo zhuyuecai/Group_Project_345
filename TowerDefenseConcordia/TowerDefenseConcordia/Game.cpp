@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include "Scenes/MapCreationMenu.hpp"
+#include "Scenes/EditMapScene.hpp"
 
 namespace TDC
 {
@@ -76,7 +77,7 @@ namespace TDC
 				_mode->removeSubscriber(getHandle());
 				_mode.release();
 			}
-			_mode = std::make_unique<MapCreationMenuBehaviour>();
+			_mode = std::make_unique<EditMapScene>(mapFilePath, width, height);
 			_mode->setGamePtr(this);
 			addSubscriber(_mode->getHandle());
 			_mode->addSubscriber(getHandle());

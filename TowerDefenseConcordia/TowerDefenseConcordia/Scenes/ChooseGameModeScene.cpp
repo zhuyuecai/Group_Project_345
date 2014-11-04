@@ -35,7 +35,7 @@ namespace TDC
 		_loadMap = std::make_unique<TextButton>(
 			sf::Vector2f(50, 66)
 			, sf::Vector2f(50, 33)
-			, "Load map !\n(testMapBinary.bin only for the moment)"
+			, "Load map !\n(TestMap.bin only for the moment)"
 			, sf::Color::Red
 			, sf::Color::Yellow
 			, 20);
@@ -43,7 +43,7 @@ namespace TDC
 
 		_loadMap->setOnClickCallback([&]()
 		{
-			_game->setPlayMode("testMapBinary.bin");
+			_game->setPlayMode("../TestMap.bin");
 		});
 
 	}
