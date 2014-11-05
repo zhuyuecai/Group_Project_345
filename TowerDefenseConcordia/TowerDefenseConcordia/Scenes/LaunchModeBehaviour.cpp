@@ -25,7 +25,7 @@ namespace TDC
 				, 20);
 			_play->setParent(this);
 
-			_play->setOnClickCallback([&](){
+			_play->setOnClickCallback([&](const sf::Vector2i &){
 				_game->setChoosePlayMode();
 				return false;
 			});
@@ -40,7 +40,7 @@ namespace TDC
 				, 20);
 			_edit->setParent(this);
 
-			_edit->setOnClickCallback([&]()
+			_edit->setOnClickCallback([&](const sf::Vector2i &)
 			{
 				_game->setEditionMenuMode();
 				return false;

@@ -122,6 +122,9 @@ namespace TDC
 			return n;
 		}
 
+		std::size_t getCellIndexFromPixels(int x, int y);
+		sf::Vector2i getPixelPositionForCell(std::size_t i) const;
+
 		bool saveToJson(const std::string &fileName) const; // Used to debug
 		bool saveToBinary(const std::string &fileName) const; // Used at release time
 		bool loadFromJson(const std::string &filename);

@@ -26,7 +26,7 @@ namespace TDC
 			, 20);
 		_randomMap->setParent(this);
 
-		_randomMap->setOnClickCallback([&]()
+		_randomMap->setOnClickCallback([&](const sf::Vector2i &)
 		{
 			_game->setPlayMode("__RANDOM__");
 			return false;
@@ -42,7 +42,7 @@ namespace TDC
 			, 20);
 		_loadMap->setParent(this);
 
-		_loadMap->setOnClickCallback([&]()
+		_loadMap->setOnClickCallback([&](const sf::Vector2i &)
 		{
 			_game->setLoadMenu();
 			return false;

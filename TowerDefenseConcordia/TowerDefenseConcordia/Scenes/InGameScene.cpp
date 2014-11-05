@@ -3,6 +3,8 @@
 
 namespace TDC
 {
+	std::size_t InGameScene::IState::__idCounter = 0;
+
 	InGameScene::InGameScene()
 	{}
 
@@ -17,14 +19,66 @@ namespace TDC
 			this->setRootArea(m->size.x, m->size.y);
 		});
 
-		subcribeToMessage<Msg::Event>([this](const IMessage *msg)
-		{
-			_events(static_cast<const Msg::Event*>(msg)->event);
-		});
-
 		_map.setParent(this);
 
 		_arial.loadFromFile("../assets/arial.ttf");
+
+		_createTowerBtnType1 = std::make_unique<TextButton>(
+			sf::Vector2f(80, 0)
+			, sf::Vector2f(20, 10)
+			, "Create Minigun"
+			, sf::Color::Red
+			, sf::Color::Yellow
+			, 20);
+		_createTowerBtnType1->setCentered(false);
+		_createTowerBtnType1->setParent(this);
+		_createTowerBtnType1->setOnClickCallback([&](const sf::Vector2i &)
+		{
+			_state = std::make_unique<PlaceMinigun>();
+			return true;
+		});
+
+		_createTowerBtnType2 = std::make_unique<TextButton>(
+			sf::Vector2f(80, 10)
+			, sf::Vector2f(20, 10)
+			, "Create Rocket"
+			, sf::Color::Red
+			, sf::Color::Yellow
+			, 20);
+		_createTowerBtnType2->setCentered(false);
+		_createTowerBtnType2->setParent(this);
+		_createTowerBtnType2->setOnClickCallback([&](const sf::Vector2i &)
+		{
+			_state = std::make_unique<PlaceRocket>();
+			return true;
+		});
+
+		this->setOnClickCallback([&](const sf::Vector2i &p)
+		{
+			auto index = _map.getCellIndexFromPixels(p.x, p.y);
+			if (index == INVALID)
+				return true;
+			if (_towers.find(index) != std::end(_towers))
+				return true;
+			if (_state)
+			{
+				auto stateId = _state->id;
+				if (stateId == PlaceRocket::getId())
+				{
+					_towers[index] = std::make_unique<Tower<TowerType::Rocket>>();
+					_towers[index]->setCellIndex(index);
+					_state.reset();
+				}
+				else if (stateId == PlaceMinigun::getId())
+				{
+					_towers[index] = std::make_unique<Tower<TowerType::MiniGun>>();
+					_towers[index]->setCellIndex(index);
+					_state.reset();
+				}
+			}
+			return true;
+		});
+
 	}
 
 	void InGameScene::generate()
@@ -103,12 +157,23 @@ Key G to generate a new map\n\
 Key ESC to go back to menu.", _arial, 20);
 		text.setColor(sf::Color::Red);
 		window->draw(text);
+
+		_createTowerBtnType1->update(dt, window);
+		_createTowerBtnType2->update(dt, window);
+
+		sf::CircleShape triangle(_map.getCellRatio() / 2.0f, 3);
+		for (auto &e : _towers)
+		{
+			triangle.setFillColor(e.second->getColor());
+			auto pos = _map.getPixelPositionForCell(e.second->getCellIndex());
+			triangle.setPosition(pos.x, pos.y);
+			window->draw(triangle);
+		}
+
 	}
 
-	void InGameScene::_events(const sf::Event &event)
+	bool InGameScene::_event(const sf::Event &event)
 	{
-		publish<Msg::Event>(event);
-
 		if (event.type == sf::Event::KeyReleased)
 		{
 			if (event.key.code == sf::Keyboard::Num1)
@@ -126,11 +191,14 @@ Key ESC to go back to menu.", _arial, 20);
 			else if (event.key.code == sf::Keyboard::G)
 			{
 				generate();
+				_towers.clear();
 			}
 			else if (event.key.code == sf::Keyboard::Escape)
 			{
 				_game->setMainMenu();
+				return false;
 			}
 		}
+		return true;
 	}
 }

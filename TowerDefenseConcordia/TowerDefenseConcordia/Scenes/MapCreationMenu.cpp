@@ -47,7 +47,7 @@ namespace TDC
 			, 20);
 		_okay->setParent(this);
 
-		_okay->setOnClickCallback([&](){
+		_okay->setOnClickCallback([&](const sf::Vector2i &){
 			if (_mapName->getValue().size() == 0)
 				return true;
 			_game->setMapCreationMode(_mapName->getValue(), _mapWidth->getInt(), _mapHeight->getInt());

@@ -344,6 +344,21 @@ namespace TDC
 		}
 	}
 
+	std::size_t Map::getCellIndexFromPixels(int _x, int _y)
+	{
+		auto x = int(_x - _pixels.left) / _cellRatio;
+		auto y = int(_y - _pixels.top) / _cellRatio;
+		auto cell = getCell(x, y);
+		if (!cell)
+			return INVALID;
+		return cell->getIndex();
+	}
+
+	sf::Vector2i Map::getPixelPositionForCell(std::size_t i) const
+	{
+		return sf::Vector2i((float)((i % _width) * _cellRatio), (float)((i / _width) * _cellRatio));
+	}
+
 	bool Map::_event(const sf::Event &event)
 	{
 		if (_editionMode)
