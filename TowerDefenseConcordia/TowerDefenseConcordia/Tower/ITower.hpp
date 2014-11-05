@@ -12,8 +12,11 @@ namespace TDC
 		struct IType
 		{
 			virtual std::size_t getPrice(std::size_t _level) = 0;
-			virtual std::size_t getPower(std::size_t _level) = 0;
+			virtual float getPower(std::size_t _level) = 0;
 			virtual const sf::Color &getColor(std::size_t _level) = 0;
+			virtual const std::size_t getRefund(std::size_t _level) = 0;
+			virtual const std::size_t getRange(std::size_t _level) = 0;
+			virtual const float getFireRate(std::size_t _level) = 0;
 			static const std::size_t maxLevel;
 		};
 
@@ -21,12 +24,20 @@ namespace TDC
 		struct Type : public IType
 		{
 			virtual std::size_t getPrice(std::size_t _level) { return price[_level]; }
-			virtual std::size_t getPower(std::size_t _level) { return power[_level]; }
+			virtual float getPower(std::size_t _level) { return power[_level]; }
 			virtual const sf::Color &getColor(std::size_t _level) { return color[_level]; }
+			virtual const std::size_t getRefund(std::size_t _level) { return refund[_level]; }
+			virtual const std::size_t getRange(std::size_t _level) { return range[_level]; }
+			virtual const float getFireRate(std::size_t _level) { return fireRate[_level]; }
+
+			static std::size_t getCreationPrice() { return price[0]; }
 
 			static const std::array<std::size_t, 5> price;
 			static const std::array<float, 5> power;
 			static const std::array<sf::Color, 5> color;
+			static const std::array<std::size_t, 5> refund;
+			static const std::array<std::size_t, 5> range;
+			static const std::array<float, 5> fireRate;
 		};
 
 		struct MiniGun : public Type< MiniGun >
@@ -48,11 +59,23 @@ namespace TDC
 		inline std::size_t getPrice() const {
 			return _properties->getPrice(_level);
 		}
-		inline std::size_t getPower() const {
+		inline float getPower() const {
 			return _properties->getPower(_level);
 		}
 		inline const sf::Color &getColor() const {
 			return _properties->getColor(_level);
+		}
+		inline std::size_t getRefund() const {
+			return _properties->getRefund(_level);
+		}
+		inline std::size_t getRange() const {
+			return _properties->getRange(_level);
+		}
+		inline float getFireRate() const {
+			return _properties->getFireRate(_level);
+		}
+		inline std::size_t getNextPrice() const {
+			return _properties->getPrice(_level + 1);
 		}
 		inline std::size_t getCellIndex() const { return _cellIndex; }
 		inline void setCellIndex(std::size_t i) { _cellIndex = i; }

@@ -26,7 +26,7 @@ namespace TDC
 		_createTowerBtnType1 = std::make_unique<TextButton>(
 			sf::Vector2f(80, 0)
 			, sf::Vector2f(20, 10)
-			, "Create Minigun"
+			, "Create Minigun\n" + std::to_string(TowerType::Type<TowerType::MiniGun>::getCreationPrice()) + "$"
 			, sf::Color::Red
 			, sf::Color::Yellow
 			, 20);
@@ -41,7 +41,7 @@ namespace TDC
 		_createTowerBtnType2 = std::make_unique<TextButton>(
 			sf::Vector2f(80, 10)
 			, sf::Vector2f(20, 10)
-			, "Create Rocket"
+			, "Create Rocket\n" + std::to_string(TowerType::Type<TowerType::Rocket>::getCreationPrice()) + "$"
 			, sf::Color::Red
 			, sf::Color::Yellow
 			, 20);
@@ -58,23 +58,41 @@ namespace TDC
 			auto index = _map.getCellIndexFromPixels(p.x, p.y);
 			if (index == INVALID)
 				return true;
-			if (_towers.find(index) != std::end(_towers))
-				return true;
 			if (_state)
 			{
+				if (_map.getCell(index)->getType() != CellType::Wall)
+					return true;
 				auto stateId = _state->id;
 				if (stateId == PlaceRocket::getId())
 				{
+					if (_towers.find(index) != std::end(_towers))
+						return true;
 					_towers[index] = std::make_unique<Tower<TowerType::Rocket>>();
 					_towers[index]->setCellIndex(index);
 					_state.reset();
 				}
 				else if (stateId == PlaceMinigun::getId())
 				{
+					if (_towers.find(index) != std::end(_towers))
+						return true;
 					_towers[index] = std::make_unique<Tower<TowerType::MiniGun>>();
 					_towers[index]->setCellIndex(index);
 					_state.reset();
 				}
+				else if (stateId == ShowTowerInfos::getId())
+				{
+					_state.reset();
+					_towerInfos.reset(); _sellBtn.reset(); _upgradeBtn.reset();
+					if (_towers.find(index) == std::end(_towers))
+						return true;
+					_state = std::make_unique<ShowTowerInfos>(index);
+				}
+			}
+			else // if !_state
+			{
+				if (_towers.find(index) == std::end(_towers))
+					return true;
+				_state = std::make_unique<ShowTowerInfos>(index);
 			}
 			return true;
 		});
@@ -102,11 +120,29 @@ namespace TDC
 
 	void InGameScene::update(const sf::Time &dt, sf::RenderWindow *window)
 	{
+
+		if (rand() % 15 == 0)
+		{
+			if (rand() % 3 == 0)
+			{
+				_critters.emplace_back<Critter>(Critter::CritterType::Type1);
+				_critters.back().addSubscriber(_map.getHandle());
+				_critters.back().init();
+			}
+			else
+			{
+				_critters.emplace_back<Critter>(Critter::CritterType::Type2);
+				_critters.back().addSubscriber(_map.getHandle());
+				_critters.back().init();
+			}
+		}
+
 		_map.update(dt, window);
 		auto _cellSizeRatio = _map.getCellRatio();
 
 		sf::CircleShape circle;
 		circle.setRadius(_cellSizeRatio / 2.0f);
+		circle.setPointCount(8);
 
 		for (std::size_t i = 0; i < _critters.size(); ++i)
 		{
@@ -151,10 +187,7 @@ namespace TDC
 			}
 		}
 
-		sf::Text text("Key 1 to create a critter of type 1.\n\
-Key 2 to create a critter of type 2.\n\
-Key G to generate a new map\n\
-Key ESC to go back to menu.", _arial, 20);
+		sf::Text text("Key G to generate a new map", _arial, 20);
 		text.setColor(sf::Color::Red);
 		window->draw(text);
 
@@ -170,28 +203,77 @@ Key ESC to go back to menu.", _arial, 20);
 			window->draw(triangle);
 		}
 
+		if (_state && _state->id == ShowTowerInfos::getId())
+		{
+			auto &e = _towers[static_cast<ShowTowerInfos*>(_state.get())->index];
+			_towerInfos = std::make_unique<TextButton>(
+				sf::Vector2f(80, 20), sf::Vector2f(20, 80)
+				, "Level : "
+				+ std::to_string(e->getLevel())
+				+ "\nPower : "
+				+ std::to_string(e->getPower())
+				+ "\nRange : "
+				+ std::to_string(e->getRange())
+				+ "\nFire rate : "
+ 				+ std::to_string(e->getFireRate())
+				, e->getColor());
+			_towerInfos->setCentered(false);
+			_towerInfos->setParent(this);
+
+
+			_sellBtn = std::make_unique<TextButton>(
+				sf::Vector2f(0, 50)
+				, sf::Vector2f(100, 25)
+				, "Sell for " + std::to_string(e->getPrice()) + "$"
+				, e->getColor()
+				, sf::Color::Green);
+			_sellBtn->setCentered(false);
+			_sellBtn->setParent(_towerInfos.get());
+			_sellBtn->update(dt, window);
+			_sellBtn->setOnClickCallback([&](const sf::Vector2i &)
+			{
+				_towers.erase(e->getCellIndex());
+				_state.reset();
+				return false;
+			});
+
+			if (e->isUpgradable())
+			{
+				_upgradeBtn = std::make_unique<TextButton>(sf::Vector2f(0, 75),sf::Vector2f(100, 25)
+					, "Upgrade to level " + std::to_string(e->getLevel() + 1)
+					+ "\n" + std::to_string(e->getNextPrice()) + "$"
+					, e->getColor()
+					, sf::Color::White );
+				_upgradeBtn->setCentered(false);
+				_upgradeBtn->setParent(_towerInfos.get());
+				_upgradeBtn->update(dt, window);
+				_upgradeBtn->setOnClickCallback([&](const sf::Vector2i &)
+				{
+					e->upgradeLevel();
+					return true;
+				});
+				//removeSubscriber(_upgradeBtn->getHandle());
+			}
+		if (_towerInfos)
+			_towerInfos->update(dt, window);
+		if (_sellBtn)
+			_sellBtn->update(dt, window);
+		if (_upgradeBtn)
+			_upgradeBtn->update(dt, window);
+		}
+
+
 	}
 
 	bool InGameScene::_event(const sf::Event &event)
 	{
 		if (event.type == sf::Event::KeyReleased)
 		{
-			if (event.key.code == sf::Keyboard::Num1)
-			{
-				_critters.emplace_back<Critter>(Critter::CritterType::Type1);
-				_critters.back().addSubscriber(_map.getHandle());
-				_critters.back().init();
-			}
-			else if (event.key.code == sf::Keyboard::Num2)
-			{
-				_critters.emplace_back<Critter>(Critter::CritterType::Type2);
-				_critters.back().addSubscriber(_map.getHandle());
-				_critters.back().init();
-			}
-			else if (event.key.code == sf::Keyboard::G)
+		    if (event.key.code == sf::Keyboard::G)
 			{
 				generate();
 				_towers.clear();
+				_state.reset();
 			}
 			else if (event.key.code == sf::Keyboard::Escape)
 			{

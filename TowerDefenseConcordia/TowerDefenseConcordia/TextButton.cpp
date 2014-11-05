@@ -41,6 +41,18 @@ namespace TDC
 	{
 		_shape.setPosition({ _pixels.left, _pixels.top });
 		_shape.setSize(sf::Vector2f(_pixels.width, _pixels.height));
-		_text.setPosition(_pixels.left + (_pixels.width) / 2.0f - _text.getLocalBounds().width / 2.0f, _pixels.top + (_pixels.height) / 2.0f - _text.getLocalBounds().height / 2.0f);
+		if (_centered)
+		{
+			_text.setPosition(_pixels.left + (_pixels.width) / 2.0f - _text.getLocalBounds().width / 2.0f, _pixels.top + (_pixels.height) / 2.0f - _text.getLocalBounds().height / 2.0f);
+		}
+		else
+		{
+			_text.setPosition(_pixels.left + (_pixels.width) / 30.0f, _pixels.top + (_pixels.height) / 30.0f);
+		}
+		if (_text.getLocalBounds().width >= _pixels.width && _pixels.width > 0)
+		{
+			float scale = _pixels.width / (_text.getLocalBounds().width + 5.0f);
+			_text.scale({ scale, 1.0f });
+		}
 	}
 }

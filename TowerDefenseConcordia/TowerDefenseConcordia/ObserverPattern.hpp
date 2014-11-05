@@ -94,5 +94,8 @@ namespace TDC
 
 	// Class where the object is publisher and subscriber at the same time
 	class PubSub : public Publisher, public Subscriber
-	{};
+	{
+	public:
+		virtual ~PubSub(){}
+	};
 }

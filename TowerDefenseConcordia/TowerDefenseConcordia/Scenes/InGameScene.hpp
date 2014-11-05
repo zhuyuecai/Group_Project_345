@@ -57,11 +57,22 @@ namespace TDC
 		struct PlaceRocket : public State <PlaceRocket>
 		{};
 
+		struct ShowTowerInfos : public State < ShowTowerInfos >
+		{
+			ShowTowerInfos(std::size_t _index)
+				: index(_index)
+			{}
+			std::size_t index;
+		};
+
 		virtual bool _event(const sf::Event &event);
 		Map _map;
 		std::unique_ptr<TextButton> _createTowerBtnType1;
 		std::unique_ptr<TextButton> _createTowerBtnType2;
 		std::unique_ptr<IState> _state;
+		std::unique_ptr<TextButton> _upgradeBtn;
+		std::unique_ptr<TextButton> _sellBtn;
+		std::unique_ptr<TextButton> _towerInfos;
 		std::size_t _cellSizeRatio;
 		sf::Font _arial;
 		std::vector < Critter > _critters;
