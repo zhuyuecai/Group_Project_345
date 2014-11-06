@@ -73,6 +73,7 @@ namespace TDC
 		std::unique_ptr<TextButton> _upgradeBtn;
 		std::unique_ptr<TextButton> _sellBtn;
 		std::unique_ptr<TextButton> _towerInfos;
+		std::size_t _towerIndex;
 		std::size_t _cellSizeRatio;
 		sf::Font _arial;
 		std::vector < Critter > _critters;
