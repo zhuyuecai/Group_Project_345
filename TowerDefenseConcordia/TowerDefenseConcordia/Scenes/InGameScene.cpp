@@ -206,6 +206,7 @@ namespace TDC
 		if (_state && _state->id == ShowTowerInfos::getId())
 		{
 			auto &e = _towers[static_cast<ShowTowerInfos*>(_state.get())->index];
+			auto index = e->getCellIndex();
 			_towerInfos = std::make_unique<TextButton>(
 				sf::Vector2f(80, 20), sf::Vector2f(20, 80)
 				, "Level : "
@@ -232,7 +233,7 @@ namespace TDC
 			_sellBtn->update(dt, window);
 			_sellBtn->setOnClickCallback([&](const sf::Vector2i &)
 			{
-				_towers.erase(e->getCellIndex());
+				_towers.erase(index);
 				_state.reset();
 				return false;
 			});

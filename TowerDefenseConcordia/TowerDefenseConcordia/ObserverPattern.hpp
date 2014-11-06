@@ -69,6 +69,7 @@ namespace TDC
 		void publish(Args ...args)
 		{
 			T tmp(args...);
+			removeEmptySubscribers();
 			for (unsigned int i = 0; i < _subscribers.size(); ++i)
 			{
 				auto &e = _subscribers[i];
