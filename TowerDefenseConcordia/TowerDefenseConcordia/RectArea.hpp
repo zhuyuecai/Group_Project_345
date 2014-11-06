@@ -158,7 +158,7 @@ private:
 		{
 			auto *m = static_cast <Msg::Event*>(msg);
 			if (m->event.type == sf::Event::MouseButtonReleased
-				&& isPointIn(m->event.mouseButton.x, m->event.mouseButton.y))
+				&& isPointIn((float)m->event.mouseButton.x, (float)m->event.mouseButton.y))
 			{
 				if (!_onClick(sf::Vector2i(m->event.mouseButton.x, m->event.mouseButton.y)))
 					return;
@@ -167,7 +167,7 @@ private:
 						return;
 			}
 			else if (m->event.type == sf::Event::MouseMoved
-				&& isPointIn(m->event.mouseMove.x, m->event.mouseMove.y))
+				&& isPointIn((float)m->event.mouseMove.x, (float)m->event.mouseMove.y))
 			{
 				_onHover();
 				if (_onHoverCallback)

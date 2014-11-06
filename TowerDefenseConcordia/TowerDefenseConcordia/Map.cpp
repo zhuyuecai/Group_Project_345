@@ -356,7 +356,7 @@ namespace TDC
 
 	sf::Vector2i Map::getPixelPositionForCell(std::size_t i) const
 	{
-		return sf::Vector2i((float)((i % _width) * _cellRatio), (float)((i / _width) * _cellRatio));
+		return sf::Vector2i((int)((i % _width) * _cellRatio), (int)((i / _width) * _cellRatio));
 	}
 
 	bool Map::_event(const sf::Event &event)
@@ -393,5 +393,6 @@ namespace TDC
 				}
 			}
 		}
+		return true;
 	}
 }

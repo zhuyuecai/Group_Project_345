@@ -18,7 +18,7 @@ namespace TDC
 	{
 		if (event.type == sf::Event::MouseButtonPressed)
 		{
-			if (this->isPointIn(event.mouseButton.x, event.mouseButton.y))
+			if (this->isPointIn((float)event.mouseButton.x, (float)event.mouseButton.y))
 			{
 				_focus = true;
 				_shape.setOutlineThickness(2.0f);

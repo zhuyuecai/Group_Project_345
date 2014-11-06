@@ -9,7 +9,7 @@ namespace TDC
 		subcribeToMessage<Msg::Resize>([this](const IMessage *msg)
 		{
 			auto *m = static_cast<const Msg::Resize *>(msg);
-			this->setRootArea(m->size.x, m->size.y);
+			this->setRootArea((float)m->size.x, (float)m->size.y);
 		});
 
 		subcribeToMessage<Msg::Event>([this](const IMessage *msg)

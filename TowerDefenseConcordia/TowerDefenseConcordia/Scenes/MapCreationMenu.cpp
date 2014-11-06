@@ -9,7 +9,7 @@ namespace TDC
 		subcribeToMessage<Msg::Resize>([this](const IMessage *msg)
 		{
 			auto *m = static_cast<const Msg::Resize *>(msg);
-			this->setRootArea(m->size.x, m->size.y);
+			this->setRootArea((float)m->size.x, (float)m->size.y);
 		});
 
 		_mapName = std::make_unique<TextInput>(
@@ -51,6 +51,7 @@ namespace TDC
 			if (_mapName->getValue().size() == 0)
 				return true;
 			_game->setMapCreationMode(_mapName->getValue(), _mapWidth->getInt(), _mapHeight->getInt());
+			return true;
 		});
 	}
 

@@ -16,7 +16,7 @@ namespace TDC
 		subcribeToMessage<Msg::Resize>([this](const IMessage *msg)
 		{
 			auto *m = static_cast<const Msg::Resize *>(msg);
-			this->setRootArea(m->size.x, m->size.y);
+			this->setRootArea((float)m->size.x, (float)m->size.y);
 		});
 
 		_map.setParent(this);
@@ -199,7 +199,7 @@ namespace TDC
 		{
 			triangle.setFillColor(e.second->getColor());
 			auto pos = _map.getPixelPositionForCell(e.second->getCellIndex());
-			triangle.setPosition(pos.x, pos.y);
+			triangle.setPosition((float)pos.x, (float)pos.y);
 			window->draw(triangle);
 		}
 

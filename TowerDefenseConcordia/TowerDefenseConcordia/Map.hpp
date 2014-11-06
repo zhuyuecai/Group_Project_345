@@ -151,8 +151,8 @@ namespace TDC
 		{
 			auto w = _pixels.width;
 			auto h = _pixels.height;
-			_cellRatio = w / _width;
-			_cellRatio = h / _height < _cellRatio ? h / _height : _cellRatio;
+			_cellRatio = (std::size_t)w / _width;
+			_cellRatio = (std::size_t)h / _height < _cellRatio ? (std::size_t)h / _height : _cellRatio;
 		}
 
 		virtual bool _event(const sf::Event &event);

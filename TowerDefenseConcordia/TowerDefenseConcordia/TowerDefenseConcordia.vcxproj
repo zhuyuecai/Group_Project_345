@@ -46,7 +46,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\Program Files (x86)\Visual Leak Detector\include;$(SolutionDir)Vendors/sfml/include;$(SolutionDir)Vendors/cereal;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
