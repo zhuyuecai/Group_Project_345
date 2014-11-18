@@ -3,12 +3,13 @@
 	#Game:
 		- Wave-based (start when player wants)
 		- Game Over if a specific amount ( =number of lives) of critters arrive at 		the exit point
+		- Max number of waves
 
 	#Tower:
-		- Must add a new Tower
-		- Can be bought at any time ???
-		- Area damage? Special effect (stunning, lower speed) ????
+		- Must add a new sort of Tower
+		- Area damage and/or Special effect (stunning, lower speed)
 		- Can be sold back (== give money)
+		- Shooting strategy -> nearest, weakest, strongest,etc…
 
 	#Critter:
 		- Arrive in succession at a finite amount
@@ -17,6 +18,7 @@
 		- If HP <= 0 -> Critter dies
 		- Strength (HP and/or speed and/or number) increases every wave
 		- User can inspect characteristics in play and of the wave to come
+		- Critter observer that allows to observe dynamically the current HP
 
 
 	#Money System:
@@ -42,11 +44,9 @@
 		- User chooses the map 
 
 	#Game:
-		- At start ‚-> Must choose a map 
+		- At start -> Must choose a map 
 
 	#Tower:
-		- Different Towers: Specific Style, Range, Power, Price, Rate of Fire
-		Style 
 		- Can be upgraded 
 		- User can inspect the characteristics 
 
