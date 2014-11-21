@@ -93,6 +93,7 @@ namespace TDC
 			{
 				removeSubscriber(_mode->getHandle());
 				_mode->removeSubscriber(getHandle());
+				_mode.release();
 			}
 			_mode = std::make_unique<LaunchModeBehaviour>();
 			_mode->setGamePtr(this);
@@ -109,6 +110,7 @@ namespace TDC
 			{
 				removeSubscriber(_mode->getHandle());
 				_mode->removeSubscriber(getHandle());
+				_mode.release();
 			}
 			_mode = std::make_unique<LoadMapMenu>();
 			_mode->setGamePtr(this);

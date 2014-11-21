@@ -73,7 +73,7 @@ namespace TDC
 			for (unsigned int i = 0; i < _subscribers.size(); ++i)
 			{
 				auto &e = _subscribers[i];
-				if (e.expired() || e.lock()->ptr == nullptr || !e.lock()->valid)
+				if (e.expired() || !e.lock() || e.lock()->ptr == nullptr || !e.lock()->valid)
 				{
 					std::swap(_subscribers[i], _subscribers.back());
 					_subscribers.pop_back();

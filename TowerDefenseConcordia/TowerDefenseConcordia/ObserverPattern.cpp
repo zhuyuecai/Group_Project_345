@@ -63,7 +63,7 @@ namespace TDC
 	{
 		for (std::size_t i = 0; i < _subscribers.size(); ++i)
 		{
-			if (_subscribers[i].expired() || !_subscribers[i].lock() || !_subscribers[i].lock()->valid)
+			if (_subscribers[i].expired() || !_subscribers[i].lock() || !_subscribers[i].lock()->ptr || !_subscribers[i].lock()->valid)
 			{
 				std::swap(_subscribers[i], _subscribers.back());
 				_subscribers.pop_back();
