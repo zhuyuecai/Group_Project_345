@@ -55,7 +55,7 @@ namespace TDC
 		virtual ~ITower(){}
 		inline std::size_t getLevel() const { return _level; }
 		inline void upgradeLevel() { if (_level < _properties->maxLevel) ++_level; }
-		inline bool isUpgradable() const { return _level < _properties->maxLevel; }
+		inline bool isUpgradable() const { return _level < _properties->maxLevel - 1; }
 		inline std::size_t getPrice() const {
 			return _properties->getPrice(_level);
 		}

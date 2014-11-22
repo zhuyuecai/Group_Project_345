@@ -6,6 +6,7 @@ namespace TDC
 	std::size_t InGameScene::IState::__idCounter = 0;
 
 	InGameScene::InGameScene()
+		: _money(300)
 	{}
 
 	InGameScene::~InGameScene()
@@ -23,8 +24,18 @@ namespace TDC
 
 		_arial.loadFromFile("../assets/arial.ttf");
 
-		_createTowerBtnType1 = std::make_unique<TextButton>(
+		_moneyBtn = std::make_unique<TextButton>(
 			sf::Vector2f(80, 0)
+			, sf::Vector2f(20, 10)
+			, std::to_string(_money) + " $"
+			, sf::Color::Green
+			, sf::Color::Magenta
+			, 20);
+		_moneyBtn->setCentered(false);
+		_moneyBtn->setParent(this);
+
+		_createTowerBtnType1 = std::make_unique<TextButton>(
+			sf::Vector2f(80, 10)
 			, sf::Vector2f(20, 10)
 			, "Create Minigun\n" + std::to_string(TowerType::Type<TowerType::MiniGun>::getCreationPrice()) + "$"
 			, sf::Color::Red
@@ -39,7 +50,7 @@ namespace TDC
 		});
 
 		_createTowerBtnType2 = std::make_unique<TextButton>(
-			sf::Vector2f(80, 10)
+			sf::Vector2f(80, 20)
 			, sf::Vector2f(20, 10)
 			, "Create Rocket\n" + std::to_string(TowerType::Type<TowerType::Rocket>::getCreationPrice()) + "$"
 			, sf::Color::Red
@@ -48,6 +59,21 @@ namespace TDC
 		_createTowerBtnType2->setCentered(false);
 		_createTowerBtnType2->setParent(this);
 		_createTowerBtnType2->setOnClickCallback([&](const sf::Vector2i &)
+		{
+			_state = std::make_unique<PlaceRocket>();
+			return true;
+		});
+
+		_createTowerBtnType3 = std::make_unique<TextButton>(
+			sf::Vector2f(80, 30)
+			, sf::Vector2f(20, 10)
+			, "Create Laser\n" + std::to_string(TowerType::Type<TowerType::Rocket>::getCreationPrice()) + "$"
+			, sf::Color::Red
+			, sf::Color::Yellow
+			, 20);
+		_createTowerBtnType3->setCentered(false);
+		_createTowerBtnType3->setParent(this);
+		_createTowerBtnType3->setOnClickCallback([&](const sf::Vector2i &)
 		{
 			_state = std::make_unique<PlaceRocket>();
 			return true;
@@ -67,6 +93,13 @@ namespace TDC
 				{
 					if (_towers.find(index) != std::end(_towers))
 						return true;
+					if (_money < TowerType::Rocket::getCreationPrice())
+					{
+						_state.reset();
+						return true;
+					}
+					_money -= TowerType::Rocket::getCreationPrice();
+					_moneyBtn->setText(std::to_string(_money) + " $");
 					_towers[index] = std::make_unique<Tower<TowerType::Rocket>>();
 					_towers[index]->setCellIndex(index);
 					_state.reset();
@@ -75,6 +108,13 @@ namespace TDC
 				{
 					if (_towers.find(index) != std::end(_towers))
 						return true;
+					if (_money < TowerType::MiniGun::getCreationPrice())
+					{
+						_state.reset();
+						return true;
+					}
+					_money -= TowerType::MiniGun::getCreationPrice();
+					_moneyBtn->setText(std::to_string(_money) + " $");
 					_towers[index] = std::make_unique<Tower<TowerType::MiniGun>>();
 					_towers[index]->setCellIndex(index);
 					_state.reset();
@@ -193,6 +233,8 @@ namespace TDC
 
 		_createTowerBtnType1->update(dt, window);
 		_createTowerBtnType2->update(dt, window);
+		_createTowerBtnType3->update(dt, window);
+		_moneyBtn->update(dt, window);
 
 		sf::CircleShape triangle(_map.getCellRatio() / 2.0f, 3);
 		for (auto &e : _towers)
@@ -225,7 +267,7 @@ namespace TDC
 			_sellBtn = std::make_unique<TextButton>(
 				sf::Vector2f(0, 50)
 				, sf::Vector2f(100, 25)
-				, "Sell for " + std::to_string(e->getPrice()) + "$"
+				, "Sell for " + std::to_string(e->getRefund()) + "$"
 				, e->getColor()
 				, sf::Color::Green);
 			_sellBtn->setCentered(false);
@@ -233,6 +275,8 @@ namespace TDC
 			_sellBtn->update(dt, window);
 			_sellBtn->setOnClickCallback([&](const sf::Vector2i &)
 			{
+				_money += _towers[_towerIndex]->getRefund();
+				_moneyBtn->setText(std::to_string(_money) + " $");
 				_towers.erase(_towerIndex);
 				_state.reset();
 				return false;
@@ -240,21 +284,28 @@ namespace TDC
 
 			if (e->isUpgradable())
 			{
-				_upgradeBtn = std::make_unique<TextButton>(sf::Vector2f(0, 75),sf::Vector2f(100, 25)
+				_upgradeBtn = std::make_unique<TextButton>(sf::Vector2f(0, 75), sf::Vector2f(100, 25)
 					, "Upgrade to level " + std::to_string(e->getLevel() + 1)
 					+ "\n" + std::to_string(e->getNextPrice()) + "$"
 					, e->getColor()
-					, sf::Color::White );
+					, sf::Color::White);
 				_upgradeBtn->setCentered(false);
 				_upgradeBtn->setParent(_towerInfos.get());
 				_upgradeBtn->update(dt, window);
 				_upgradeBtn->setOnClickCallback([&](const sf::Vector2i &)
 				{
+					if (e->getNextPrice() > _money)
+						return false;
+					_money -= e->getNextPrice();
+					_moneyBtn->setText(std::to_string(_money) + " $");
+
 					e->upgradeLevel();
 					return true;
 				});
 				//removeSubscriber(_upgradeBtn->getHandle());
 			}
+			else
+				_upgradeBtn = nullptr;
 		if (_towerInfos)
 			_towerInfos->update(dt, window);
 		if (_sellBtn)

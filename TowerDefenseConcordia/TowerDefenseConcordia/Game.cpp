@@ -5,6 +5,14 @@
 
 namespace TDC
 {
+
+#define RESET_SUBSCRIBER(S) \
+	{ \
+		removeSubscriber(S->getHandle()); \
+        S->removeSubscriber(getHandle()); \
+	    S.release(); \
+	}
+
 		Game::Game()
 		{}
 
@@ -14,11 +22,7 @@ namespace TDC
 		void Game::setPlayMode(const std::string &mapFilePath)
 		{
 			if (_mode)
-			{
-				removeSubscriber(_mode->getHandle());
-				_mode->removeSubscriber(getHandle());
-				_mode.release();
-			}
+				RESET_SUBSCRIBER(_mode);
 			_mode = std::make_unique<InGameScene>();
 			_mode->setGamePtr(this);
 			addSubscriber(_mode->getHandle());
@@ -39,11 +43,7 @@ namespace TDC
 		void Game::setChoosePlayMode()
 		{
 			if (_mode)
-			{
-				removeSubscriber(_mode->getHandle());
-				_mode->removeSubscriber(getHandle());
-				_mode.release();
-			}
+				RESET_SUBSCRIBER(_mode);
 			_mode = std::make_unique<ChooseGameModeScene>();
 			_mode->setGamePtr(this);
 			addSubscriber(_mode->getHandle());
@@ -56,11 +56,7 @@ namespace TDC
 		void Game::setEditionMenuMode()
 		{
 			if (_mode)
-			{
-				removeSubscriber(_mode->getHandle());
-				_mode->removeSubscriber(getHandle());
-				_mode.release();
-			}
+				RESET_SUBSCRIBER(_mode);
 			_mode = std::make_unique<MapCreationMenuBehaviour>();
 			_mode->setGamePtr(this);
 			addSubscriber(_mode->getHandle());
@@ -73,11 +69,7 @@ namespace TDC
 		void Game::setMapCreationMode(const std::string &mapFilePath, std::size_t width, std::size_t height)
 		{
 			if (_mode)
-			{
-				removeSubscriber(_mode->getHandle());
-				_mode->removeSubscriber(getHandle());
-				_mode.release();
-			}
+				RESET_SUBSCRIBER(_mode);
 			_mode = std::make_unique<EditMapScene>(mapFilePath, width, height);
 			_mode->setGamePtr(this);
 			addSubscriber(_mode->getHandle());
@@ -90,11 +82,7 @@ namespace TDC
 		void Game::setMainMenu()
 		{
 			if (_mode)
-			{
-				removeSubscriber(_mode->getHandle());
-				_mode->removeSubscriber(getHandle());
-				_mode.release();
-			}
+				RESET_SUBSCRIBER(_mode);
 			_mode = std::make_unique<LaunchModeBehaviour>();
 			_mode->setGamePtr(this);
 			addSubscriber(_mode->getHandle());
@@ -107,11 +95,7 @@ namespace TDC
 		void Game::setLoadMenu()
 		{
 			if (_mode)
-			{
-				removeSubscriber(_mode->getHandle());
-				_mode->removeSubscriber(getHandle());
-				_mode.release();
-			}
+				RESET_SUBSCRIBER(_mode);
 			_mode = std::make_unique<LoadMapMenu>();
 			_mode->setGamePtr(this);
 			addSubscriber(_mode->getHandle());

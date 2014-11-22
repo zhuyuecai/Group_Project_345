@@ -30,7 +30,7 @@ namespace TDC
 
 	void TextButton::_update(const sf::Time &dt, sf::RenderWindow *window)
 	{
-		if (window)
+		if (window && _show)
 		{
 			window->draw(_shape);
 			window->draw(_text);

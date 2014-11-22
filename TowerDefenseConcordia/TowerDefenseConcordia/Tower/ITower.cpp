@@ -4,7 +4,7 @@ namespace TDC
 {
 	namespace TowerType
 	{
-		const std::size_t IType::maxLevel = 4;
+		const std::size_t IType::maxLevel = 5;
 
 		const std::array<std::size_t, 5> Type<MiniGun>::price = { 10, 12, 14, 16, 18 };
 		const std::array<float, 5> Type<MiniGun>::power = { 1, 2, 3, 4, 5 };

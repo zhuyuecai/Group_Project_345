@@ -20,6 +20,8 @@ namespace TDC
 			, const sf::Color &bgColor = sf::Color(122, 122, 122, 255)
 			, std::size_t fontSize = 20);
 		virtual ~TextButton(){}
+		inline void setText(const std::string &text) { _text.setString(text); }
+		inline void show(bool tof) { _show = tof; }
 	protected:
 		virtual void _update(const sf::Time &dt, sf::RenderWindow *window);
 		virtual void _resized();
@@ -28,5 +30,6 @@ namespace TDC
 		sf::Text _text;
 		static std::unique_ptr<sf::Font> _font;
 		static std::once_flag _flag;
+		bool _show = true;
 	};
 }
