@@ -45,16 +45,19 @@ namespace TDC
 				, _cellStage(0)
 				, _currentCell(0)
 				, _destinationCell(0)
+				, _life(0)
 			{
 				switch (type)
 				{
 				case TDC::Critter::Type1:
 					_speed = 2.0f;
 					_color = sf::Color::Green;
+					_life = 10.0f;
 					break;
 				case TDC::Critter::Type2:
 					_speed = 3.0f;
 					_color = sf::Color::Magenta;
+					_life = 6.0f;
 					break;
 				default:
 					break;
@@ -89,11 +92,18 @@ namespace TDC
 			inline std::size_t getDestinationCell() const { return _destinationCell; }
 			inline float getCellStage() const { return _cellStage; }
 			inline const sf::Color &getColor() const { return _color; }
+			inline const float &getLife() const { return _life; }
+			inline const float getSpeed() const { return _speed; }
+			inline float &setDammage(float dammage) { _life -= dammage; return _life; }
+			inline void setPosition(const sf::Vector2f &position) { _position = position; }
+			inline const sf::Vector2f& getPosition() const { return _position; }
 	private:
 		float _speed; //speed of the critter
 		float _cellStage; //normalized value of the position of the critter on the cell [0.0f -> 1.0f]
 		sf::Color _color;
+		float _life;
 		std::size_t _currentCell; // cell the critter is on
 		std::size_t _destinationCell; //destination cell
+		sf::Vector2f _position;
 	};
 }

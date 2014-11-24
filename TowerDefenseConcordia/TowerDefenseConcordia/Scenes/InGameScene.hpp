@@ -57,6 +57,9 @@ namespace TDC
 		struct PlaceRocket : public State <PlaceRocket>
 		{};
 
+		struct PlaceLaser : public State <PlaceLaser>
+		{};
+
 		struct ShowTowerInfos : public State < ShowTowerInfos >
 		{
 			ShowTowerInfos(std::size_t _index)

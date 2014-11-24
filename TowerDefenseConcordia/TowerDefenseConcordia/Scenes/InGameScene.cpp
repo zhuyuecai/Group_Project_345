@@ -67,7 +67,7 @@ namespace TDC
 		_createTowerBtnType3 = std::make_unique<TextButton>(
 			sf::Vector2f(80, 30)
 			, sf::Vector2f(20, 10)
-			, "Create Laser\n" + std::to_string(TowerType::Type<TowerType::Rocket>::getCreationPrice()) + "$"
+			, "Create Laser\n" + std::to_string(TowerType::Type<TowerType::Laser>::getCreationPrice()) + "$"
 			, sf::Color::Red
 			, sf::Color::Yellow
 			, 20);
@@ -75,7 +75,7 @@ namespace TDC
 		_createTowerBtnType3->setParent(this);
 		_createTowerBtnType3->setOnClickCallback([&](const sf::Vector2i &)
 		{
-			_state = std::make_unique<PlaceRocket>();
+			_state = std::make_unique<PlaceLaser>();
 			return true;
 		});
 
@@ -99,7 +99,6 @@ namespace TDC
 						return true;
 					}
 					_money -= TowerType::Rocket::getCreationPrice();
-					_moneyBtn->setText(std::to_string(_money) + " $");
 					_towers[index] = std::make_unique<Tower<TowerType::Rocket>>();
 					_towers[index]->setCellIndex(index);
 					_state.reset();
@@ -114,8 +113,21 @@ namespace TDC
 						return true;
 					}
 					_money -= TowerType::MiniGun::getCreationPrice();
-					_moneyBtn->setText(std::to_string(_money) + " $");
 					_towers[index] = std::make_unique<Tower<TowerType::MiniGun>>();
+					_towers[index]->setCellIndex(index);
+					_state.reset();
+				}
+				else if (stateId == PlaceLaser::getId())
+				{
+					if (_towers.find(index) != std::end(_towers))
+						return true;
+					if (_money < TowerType::Laser::getCreationPrice())
+					{
+						_state.reset();
+						return true;
+					}
+					_money -= TowerType::Laser::getCreationPrice();
+					_towers[index] = std::make_unique<Tower<TowerType::Laser>>();
 					_towers[index]->setCellIndex(index);
 					_state.reset();
 				}
@@ -160,7 +172,7 @@ namespace TDC
 
 	void InGameScene::update(const sf::Time &dt, sf::RenderWindow *window)
 	{
-
+		sf::Text critterText("", _arial, 20);
 		if (rand() % 15 == 0)
 		{
 			if (rand() % 3 == 0)
@@ -186,8 +198,12 @@ namespace TDC
 
 		for (std::size_t i = 0; i < _critters.size(); ++i)
 		{
-			if (!_critters[i].update(dt))
+			if (!_critters[i].update(dt) || _critters[i].getLife() <= 0.0f)
 			{
+				if (_critters[i].getLife() <= 0.0f)
+				{
+					_money += 3;
+				}
 				if (i < _critters.size() - 1)
 				{
 					std::swap(_critters.at(i), _critters.at(_critters.size() - 1));
@@ -210,20 +226,27 @@ namespace TDC
 				if (dif < 0)
 					r *= -1.0f;
 
+				float x, y;
 				if (std::abs(dif) > 1) // vertical move
 				{
-					auto x = (from % _map.getWidth()) * 1.0f * _cellSizeRatio;
-					auto y = (from / _map.getWidth()) * 1.0f * _cellSizeRatio + r;
-					circle.setPosition({ x, y });
+					x = (from % _map.getWidth()) * 1.0f * _cellSizeRatio;
+					y = (from / _map.getWidth()) * 1.0f * _cellSizeRatio + r;
 				}
 				else // horizontal move
 				{
-					auto x = (from % _map.getWidth()) * 1.0f * _cellSizeRatio + r;
-					auto y = (from / _map.getWidth()) * 1.0f * _cellSizeRatio;
-					circle.setPosition({ x, y });
+					x = (from % _map.getWidth()) * 1.0f * _cellSizeRatio + r;
+					y = (from / _map.getWidth()) * 1.0f * _cellSizeRatio;
 				}
+				circle.setPosition({ x, y });
+
+				x += _cellSizeRatio / 2.0f;
+				y += _cellSizeRatio / 2.0f;
+				_critters[i].setPosition({ x, y });
 
 				window->draw(circle);
+				critterText.setString(std::to_string((int)_critters[i].getLife()));
+				critterText.setPosition({x - 10, y - 10});
+				window->draw(critterText);
 			}
 		}
 
@@ -234,15 +257,41 @@ namespace TDC
 		_createTowerBtnType1->update(dt, window);
 		_createTowerBtnType2->update(dt, window);
 		_createTowerBtnType3->update(dt, window);
+		_moneyBtn->setText(std::to_string(_money) + " $");
 		_moneyBtn->update(dt, window);
 
 		sf::CircleShape triangle(_map.getCellRatio() / 2.0f, 3);
 		for (auto &e : _towers)
 		{
+			e.second->updateFireCounter(dt.asSeconds());
 			triangle.setFillColor(e.second->getColor());
 			auto pos = _map.getPixelPositionForCell(e.second->getCellIndex());
 			triangle.setPosition((float)pos.x, (float)pos.y);
+			sf::Vector2f center(pos.x + _cellSizeRatio / 2.0f, pos.y + _cellSizeRatio / 2.0f);
+			float dist = e.second->getRange() * _cellSizeRatio;
+			e.second->_critters.clear();
+			for (auto &c : _critters)
+			{
+				auto v = sqrt((c.getPosition().x - center.x)*(c.getPosition().x - center.x) + (c.getPosition().y - center.y)*(c.getPosition().y - center.y));
+				if (v <= dist)
+				{
+					e.second->_critters.push_back(&c);
+				}
+			}
+
 			window->draw(triangle);
+
+			auto target = e.second->shoot(center);
+			if (target != nullptr)
+			{
+				sf::Vertex line[] =
+				{
+					sf::Vertex(center),
+					sf::Vertex(target->getPosition())
+				};
+				window->draw(line, 2, sf::Lines);
+				target->setDammage(e.second->getPower());
+			}
 		}
 
 		if (_state && _state->id == ShowTowerInfos::getId())
@@ -275,8 +324,9 @@ namespace TDC
 			_sellBtn->update(dt, window);
 			_sellBtn->setOnClickCallback([&](const sf::Vector2i &)
 			{
+				if (_towers.find(_towerIndex) == std::end(_towers))
+					return false;
 				_money += _towers[_towerIndex]->getRefund();
-				_moneyBtn->setText(std::to_string(_money) + " $");
 				_towers.erase(_towerIndex);
 				_state.reset();
 				return false;
@@ -297,7 +347,6 @@ namespace TDC
 					if (e->getNextPrice() > _money)
 						return false;
 					_money -= e->getNextPrice();
-					_moneyBtn->setText(std::to_string(_money) + " $");
 
 					e->upgradeLevel();
 					return true;
