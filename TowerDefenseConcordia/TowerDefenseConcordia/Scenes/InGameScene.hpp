@@ -71,6 +71,9 @@ namespace TDC
 		virtual bool _event(const sf::Event &event);
 		Map _map;
 		int _money;
+		int _life;
+		int _wave;
+		float _waveCounter;
 		std::unique_ptr<TextButton> _moneyBtn;
 		std::unique_ptr<TextButton> _createTowerBtnType1;
 		std::unique_ptr<TextButton> _createTowerBtnType2;
@@ -79,6 +82,7 @@ namespace TDC
 		std::unique_ptr<TextButton> _upgradeBtn;
 		std::unique_ptr<TextButton> _sellBtn;
 		std::unique_ptr<TextButton> _towerInfos;
+
 
 		std::size_t _towerIndex;
 		std::size_t _cellSizeRatio;

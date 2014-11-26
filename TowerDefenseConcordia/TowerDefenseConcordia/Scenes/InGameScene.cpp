@@ -8,6 +8,9 @@ namespace TDC
 
 	InGameScene::InGameScene()
 		: _money(300)
+		, _life(10)
+		, _wave(1)
+		, _waveCounter(5.0f)
 	{}
 
 	InGameScene::~InGameScene()
@@ -172,21 +175,40 @@ namespace TDC
 	void InGameScene::update(const sf::Time &dt, sf::RenderWindow *window)
 	{
 		sf::Text critterText("", *Singleton<sf::Font>::getInstance(), 20);
-		if (rand() % 15 == 0)
+		static int critterCounter = 0;
+		if (_waveCounter < 0.0f)
 		{
-			if (rand() % 3 == 0)
+			if (critterCounter < _wave * 4)
 			{
-				_critters.emplace_back<Critter>(Critter::CritterType::Type1);
-				_critters.back().addSubscriber(_map.getHandle());
-				_critters.back().init();
+				if (rand() % 15 == 0)
+				{
+					if (rand() % 3 == 0)
+					{
+						_critters.emplace_back<Critter>(Critter::CritterType::Type1);
+						_critters.back().addSubscriber(_map.getHandle());
+						_critters.back().init();
+						++critterCounter;
+					}
+					else
+					{
+						_critters.emplace_back<Critter>(Critter::CritterType::Type2);
+						_critters.back().addSubscriber(_map.getHandle());
+						_critters.back().init();
+						++critterCounter;
+					}
+				}
 			}
-			else
+			else if (_critters.size() == 0)
 			{
-				_critters.emplace_back<Critter>(Critter::CritterType::Type2);
-				_critters.back().addSubscriber(_map.getHandle());
-				_critters.back().init();
+				_waveCounter = 5.0f;
+				++_wave;
 			}
 		}
+		else
+		{
+			critterCounter = 0;
+		}
+		_waveCounter -= dt.asSeconds();
 
 		_map.update(dt, window);
 		auto _cellSizeRatio = _map.getCellRatio();
@@ -202,6 +224,10 @@ namespace TDC
 				if (_critters[i].getLife() <= 0.0f)
 				{
 					_money += 3;
+				}
+				else
+				{
+					--_life;
 				}
 				if (i < _critters.size() - 1)
 				{
@@ -249,9 +275,24 @@ namespace TDC
 			}
 		}
 
-		sf::Text text("Key G to generate a new map", *Singleton<sf::Font>::getInstance(), 20);
-		text.setColor(sf::Color::Red);
-		window->draw(text);
+
+		if (_waveCounter >= 0.0f)
+		{
+			sf::Text text("Wave " + std::to_string(_wave) + " in : " + std::to_string((int)(_waveCounter)) + " s", *Singleton<sf::Font>::getInstance(), 20);
+			text.setColor(sf::Color::Red);
+			window->draw(text);
+		}
+		else
+		{
+			sf::Text text("Remaining lifes " + std::to_string(_life), *Singleton<sf::Font>::getInstance(), 20);
+			text.setColor(sf::Color::Red);
+			window->draw(text);
+		}
+
+		if (_life < 0)
+		{
+			// todo game over
+		}
 
 		_createTowerBtnType1->update(dt, window);
 		_createTowerBtnType2->update(dt, window);
