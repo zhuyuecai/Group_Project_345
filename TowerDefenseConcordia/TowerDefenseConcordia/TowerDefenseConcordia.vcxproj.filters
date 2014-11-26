@@ -75,6 +75,12 @@
     <ClInclude Include="Tower\ITower.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Singleton.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cell.cpp">

@@ -1,5 +1,6 @@
 #include "InGameScene.hpp"
 #include "../Game.hpp"
+#include "../Singleton.hh"
 
 namespace TDC
 {
@@ -21,8 +22,6 @@ namespace TDC
 		});
 
 		_map.setParent(this);
-
-		_arial.loadFromFile("../assets/arial.ttf");
 
 		_moneyBtn = std::make_unique<TextButton>(
 			sf::Vector2f(80, 0)
@@ -172,7 +171,7 @@ namespace TDC
 
 	void InGameScene::update(const sf::Time &dt, sf::RenderWindow *window)
 	{
-		sf::Text critterText("", _arial, 20);
+		sf::Text critterText("", *Singleton<sf::Font>::getInstance(), 20);
 		if (rand() % 15 == 0)
 		{
 			if (rand() % 3 == 0)
@@ -250,7 +249,7 @@ namespace TDC
 			}
 		}
 
-		sf::Text text("Key G to generate a new map", _arial, 20);
+		sf::Text text("Key G to generate a new map", *Singleton<sf::Font>::getInstance(), 20);
 		text.setColor(sf::Color::Red);
 		window->draw(text);
 

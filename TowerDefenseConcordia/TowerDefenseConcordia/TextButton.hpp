@@ -28,8 +28,6 @@ namespace TDC
 
 		sf::RectangleShape _shape;
 		sf::Text _text;
-		static std::unique_ptr<sf::Font> _font;
-		static std::once_flag _flag;
 		bool _show = true;
 	};
 }

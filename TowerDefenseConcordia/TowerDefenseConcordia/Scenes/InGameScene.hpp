@@ -82,7 +82,6 @@ namespace TDC
 
 		std::size_t _towerIndex;
 		std::size_t _cellSizeRatio;
-		sf::Font _arial;
 		std::vector < Critter > _critters;
 		std::map < std::size_t, std::unique_ptr < ITower >> _towers;
 	};

@@ -1,9 +1,8 @@
 #include "TextButton.hpp"
+#include "Singleton.hh"
 
 namespace TDC
 {
-	std::unique_ptr<sf::Font> TextButton::_font = nullptr;
-	std::once_flag TextButton::_flag;
 
 	TextButton::TextButton(sf::Vector2f position
 		, sf::Vector2f dimensions
@@ -13,15 +12,10 @@ namespace TDC
 		, std::size_t fontSize)
 		: RectArea(position, dimensions)
 	{
-		std::call_once(_flag, [&](){
-			_font = std::make_unique<sf::Font>();
-			assert(_font->loadFromFile("../assets/arial.ttf"));
-		});
-
 		_shape.setPosition(_pixels.left, _pixels.top);
 		_shape.setSize({ _pixels.width, _pixels.height });
 		_shape.setFillColor(bgColor);
-		_text.setFont(*_font);
+		_text.setFont(*Singleton<sf::Font>::getInstance());
 		_text.setCharacterSize(fontSize);
 		_text.setPosition(_pixels.left, _pixels.top);
 		_text.setColor(textColor);

@@ -2,6 +2,7 @@
 #include "Scenes/MapCreationMenu.hpp"
 #include "Scenes/EditMapScene.hpp"
 #include "Scenes/LoadMapMenu.hpp"
+#include "Singleton.hh"
 
 namespace TDC
 {
@@ -108,6 +109,8 @@ namespace TDC
 		void Game::init()
 		{
 			WindowManager::init();
+			auto font = Singleton<sf::Font>::getInstance();
+			assert(font->loadFromFile("../assets/arial.ttf"));
 		}
 
 		void Game::_updateEvents(const sf::Event &event)

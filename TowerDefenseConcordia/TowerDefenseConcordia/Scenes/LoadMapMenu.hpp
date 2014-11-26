@@ -10,6 +10,7 @@
 #include <memory>
 #include <filesystem>
 #include "../Game.hpp"
+#include "../Singleton.hh"
 
 namespace TDC
 {
@@ -42,8 +43,6 @@ namespace TDC
 					}
 				}
 			}
-
-			assert(_font.loadFromFile("../assets/arial.ttf"));
 		}
 
 		virtual ~LoadMapMenu()
@@ -53,7 +52,7 @@ namespace TDC
 		{
 			int c = 0;
 			sf::Text text;
-			text.setFont(_font);
+			text.setFont(*Singleton<sf::Font>::getInstance());
 			text.setCharacterSize(20);
 			for (auto &e : _files)
 			{
@@ -105,6 +104,5 @@ namespace TDC
 		}
 	private:
 		std::list < std::string > _files;
-		sf::Font _font;
 	};
 }

@@ -91,6 +91,8 @@
     <ClInclude Include="Scenes\LoadMapMenu.hpp" />
     <ClInclude Include="Scenes\MapCreationMenu.hpp" />
     <ClInclude Include="NumberInput.hpp" />
+    <ClInclude Include="Singleton.hh" />
+    <ClInclude Include="Singleton.hpp" />
     <ClInclude Include="TextInput.hpp" />
     <ClInclude Include="ObserverPattern.hpp" />
     <ClInclude Include="TextButton.hpp" />
