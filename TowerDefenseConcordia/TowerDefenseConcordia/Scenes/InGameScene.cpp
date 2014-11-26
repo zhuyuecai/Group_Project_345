@@ -291,7 +291,7 @@ namespace TDC
 
 		if (_life < 0)
 		{
-			// todo game over
+			_game->setGameOver(_wave);
 		}
 
 		_createTowerBtnType1->update(dt, window);

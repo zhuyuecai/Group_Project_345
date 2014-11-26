@@ -30,6 +30,8 @@ namespace TDC
 		void setMapCreationMode(const std::string &mapFilePath, std::size_t width, std::size_t height);
 		// Main menu mode
 		void setMainMenu();
+		// Game Over mode
+		void setGameOver(int s);
 		// Load menu
 		void setLoadMenu();
 		// Initialization

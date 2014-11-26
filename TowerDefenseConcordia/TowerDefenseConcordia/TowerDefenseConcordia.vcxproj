@@ -82,6 +82,7 @@
     <ClInclude Include="RectArea.hpp" />
     <ClInclude Include="Scenes\ChooseGameModeScene.hpp" />
     <ClInclude Include="Scenes\EditMapScene.hpp" />
+    <ClInclude Include="Scenes\GameOverScene.hpp" />
     <ClInclude Include="Scenes\InGameScene.hpp" />
     <ClInclude Include="Scenes\IModeBehaviour.hpp" />
     <ClInclude Include="Scenes\LaunchModeBehaviour.hpp" />
@@ -105,6 +106,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="Scenes\ChooseGameModeScene.cpp" />
+    <ClCompile Include="Scenes\GameOverScene.cpp" />
     <ClCompile Include="Scenes\InGameScene.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Scenes\LaunchModeBehaviour.cpp" />

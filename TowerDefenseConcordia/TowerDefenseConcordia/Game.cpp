@@ -2,6 +2,7 @@
 #include "Scenes/MapCreationMenu.hpp"
 #include "Scenes/EditMapScene.hpp"
 #include "Scenes/LoadMapMenu.hpp"
+#include "Scenes/GameOverScene.hpp"
 #include "Singleton.hh"
 
 namespace TDC
@@ -89,6 +90,20 @@ namespace TDC
 			addSubscriber(_mode->getHandle());
 			_mode->addSubscriber(getHandle());
 			_mode->init();
+			// we publish the size of the window to resize buttons
+			publish<Msg::Resize>(_window.getSize());
+		}
+
+		void Game::setGameOver(int s)
+		{
+			if (_mode)
+				RESET_SUBSCRIBER(_mode);
+			_mode = std::make_unique<GameOver>();
+			_mode->setGamePtr(this);
+			addSubscriber(_mode->getHandle());
+			_mode->addSubscriber(getHandle());
+			_mode->init();
+			((GameOver*)(_mode.get()))->setScore(s);
 			// we publish the size of the window to resize buttons
 			publish<Msg::Resize>(_window.getSize());
 		}
